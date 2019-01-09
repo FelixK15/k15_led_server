@@ -1,7 +1,7 @@
 @echo off
 setlocal enableextensions enabledelayedexpansion
 
-set main_c_file=main.ino
+set main_c_file=main/main.ino
 set fpqn="arduino:avr:mega:cpu=atmega2560"
 echo Searching for Arduino compiler...
 

@@ -7,7 +7,7 @@
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_MAC_ADDRESS
-#define K15_LED_SERVER_DEFAULT_MAC_ADDRESS "7E:D5:E6:4E:6D"
+#define K15_LED_SERVER_DEFAULT_MAC_ADDRESS "7E:D5:E6:4E:6D:8C"
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_IP4_ADDRESS
@@ -1036,6 +1036,9 @@ void setup()
         //FK: TODO: blink red LED
         return;
     }
+
+    //debug
+    SD.remove( K15_LED_SERVER_CONFIG_PATH );
 
     if ( !SD.exists( K15_LED_SERVER_CONFIG_PATH ) )
     {
