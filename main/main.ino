@@ -542,7 +542,7 @@ byte tokenToPin(uint8_t* pOutPin, const char* pToken, uint8_t tokenLength)
 
 byte tokenToRGBPins(uint8_t* pOutPins, const char* pToken)
 {
-    if (*pToken != '[')
+    if (*pToken++ != '[')
     {
         return 0;
     }
@@ -551,28 +551,28 @@ byte tokenToRGBPins(uint8_t* pOutPins, const char* pToken)
 
     while(*pToken)
     {
-        //FK: eat whitespaces
-        while (*pToken == ' ' || *pToken == '\t')
+        //FK: eat symbols
+        while (*pToken == ' ' || *pToken == '\t' || *pToken == ',' || *pToken == ']')
         {
             ++pToken;
 
             if (*pToken == 0)
             {
-                return 0;
+                return 1;
             }
         }
 
         uint8_t pinTokenLength = 0;
         const char* pPinToken = pToken;
 
-        while (*pToken != ',' || *pToken != ']')
+        while (*pToken != ',' && *pToken != ']')
         {
             if (*pToken == 0)
             {
                 return 0;
             }
 
-            if (!isDecimalAscii(*++pToken))
+            if (!isDecimalAscii(*pToken++))
             {
                 continue;
             }
@@ -582,9 +582,44 @@ byte tokenToRGBPins(uint8_t* pOutPins, const char* pToken)
 
         ++pinCount;
         *pOutPins++ = decimalStringToByte(pPinToken, pinTokenLength);
+        pinTokenLength = 0;
     }
     
     return pinCount == 3;
+}
+
+byte stringContains( const char* pStack, const char* pNeedle )
+{
+    if (pNeedle == NULL || pStack == NULL)
+    {
+        return 0;
+    }
+
+    byte contains = 1;
+    const char* pN = pNeedle;
+
+    while(*pStack)
+    {
+        if ( *pStack == *pNeedle )
+        {
+            while (*pStack == *pNeedle)
+            {
+                ++pStack;
+                ++pNeedle;
+
+                if (*pNeedle == 0)
+                {
+                    return 1;
+                }
+            }
+
+            pNeedle = pN;
+        }
+
+        ++pStack;
+    }
+
+    return 0;
 }
 
 byte stringIsEqual(const char* pStringA, const char* pStringB)
@@ -651,7 +686,7 @@ void writeDefaultConfigIni()
 
     configFile.print("//lcd settings\n");
 
-    configFile.print("lcd_db0_pin=");
+    configFile.print("lcd_db_pin_0=");
     configFile.print(K15_LED_SERVER_DEFAULT_LCD_DB0_PIN);
     configFile.print("\n");
 
@@ -874,7 +909,7 @@ byte parseConfigFile(kls_config* pConfig)
                 parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_PIN;
                 parserContext.pPin  = &config.lcdPins.rsPin;
             }
-            else if (stringIsEqual(token, "lcd_db_pin_"))
+            else if (stringContains(token, "lcd_db_pin_"))
             {
                 if (!isDecimalAscii(token[11]) && token[12] != 0)
                 {
@@ -885,7 +920,7 @@ byte parseConfigFile(kls_config* pConfig)
                 parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_PIN;
                 parserContext.pPin  = &config.lcdPins.dbPins[pinIndex];
             }
-            else if (stringIsEqual(token, "lcd_switch_pin_"))
+            else if (stringContains(token, "lcd_switch_pin_"))
             {
                 if (!isDecimalAscii(token[15]) && token[16] != 0)
                 {
@@ -896,7 +931,7 @@ byte parseConfigFile(kls_config* pConfig)
                 parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_PIN;
                 parserContext.pPin  = &config.lcds[lcdIndex].switchPin;
             }
-            else if (stringIsEqual(token, "led_strip_rgb_pins_"))
+            else if (stringContains(token, "led_strip_rgb_pins_"))
             {
                 if (!isDecimalAscii(token[19]) && token[20] != 0)
                 {
@@ -1062,18 +1097,6 @@ void setup()
     //FK: set to success eventhough ethernet has not been initialized yet
     config.flagMask |= K15_LED_SERVER_INIT_SUCCESS;
 
-    if (Ethernet.hardwareStatus() == EthernetNoHardware)
-    {
-        writeToSerial("Warning: No network hardware has been found.\n");
-        return;
-    }
-
-    if (Ethernet.linkStatus() == LinkOFF)
-    {
-        writeToSerial("Warning: No network cable is plugged in.\n");
-        return;
-    }
-
     byte hasAddress = 0;
     if ( ( config.flagMask & K15_LED_SERVER_USE_DHCP ) > 0u )
     {
@@ -1103,24 +1126,53 @@ void setup()
     #endif
 
     IPAddress ipAddress( config.ipAddress[0], config.ipAddress[1], config.ipAddress[2], config.ipAddress[3] );
-    Ethernet.setLocalIP( ipAddress );
 
-    if ( ( config.flagMask & K15_LED_SERVER_HAS_DNS ) > 0u )
+    if ( ( config.flagMask & K15_LED_SERVER_HAS_DNS ) == 0u )
+    {
+        Ethernet.begin(config.macAddress, ipAddress);
+    }
+    else
     {
         IPAddress dnsAddress( config.dnsAddress[0], config.dnsAddress[1], config.dnsAddress[2], config.dnsAddress[3] );
-        Ethernet.setDnsServerIP( dnsAddress );
+
+        if ( ( config.flagMask & K15_LED_SERVER_HAS_GATEWAY ) == 0u )
+        {
+            Ethernet.begin(config.macAddress, ipAddress, dnsAddress);
+        }
+        else
+        {
+            IPAddress gatewayAddress( config.gateway[0], config.gateway[1], config.gateway[2], config.gateway[3] );
+
+            if ( ( config.flagMask & K15_LED_SERVER_HAS_SUBNET_MASK ) == 0 )
+            {
+                Ethernet.begin(config.macAddress, ipAddress, dnsAddress, gatewayAddress);
+            }
+            else
+            {
+                IPAddress subnetMask( config.subnetMask[0], config.subnetMask[1], config.subnetMask[2], config.subnetMask[3] );
+                Ethernet.begin(config.macAddress, ipAddress, dnsAddress, gatewayAddress, subnetMask);
+            }
+        }
     }
 
-    if ( ( config.flagMask & K15_LED_SERVER_HAS_GATEWAY ) > 0u )
+    Serial.print("Ethernet hardwarestatus=");
+    Serial.print(Ethernet.hardwareStatus());
+    Serial.print("\n");
+
+    Serial.print("Ethernet linkStatus=");
+    Serial.print(Ethernet.linkStatus());
+    Serial.print("\n");
+
+    if (Ethernet.hardwareStatus() == EthernetNoHardware)
     {
-        IPAddress gatewayAddress( config.gateway[0], config.gateway[1], config.gateway[2], config.gateway[3] );
-        Ethernet.setGatewayIP( gatewayAddress );
+        writeToSerial("Warning: No network hardware has been found.\n");
+        return;
     }
 
-    if ( ( config.flagMask & K15_LED_SERVER_HAS_SUBNET_MASK ) > 0 )
+    if (Ethernet.linkStatus() != LinkON)
     {
-        IPAddress subnetMask( config.subnetMask[0], config.subnetMask[1], config.subnetMask[2], config.subnetMask[3] );
-        Ethernet.setSubnetMask( subnetMask );
+        writeToSerial("Warning: No network cable is plugged in.\n");
+        return;
     }
 }
 
