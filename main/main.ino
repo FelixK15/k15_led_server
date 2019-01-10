@@ -6,6 +6,14 @@
 #define K15_LED_SERVER_CONFIG_PATH "config.ini"
 #endif
 
+#ifndef K15_LED_SERVER_DEFAULT_USER
+#define K15_LED_SERVER_DEFAULT_USER "admin"
+#endif
+
+#ifndef K15_LED_SERVER_DEFAULT_PASSWORD
+#define K15_LED_SERVER_DEFAULT_PASSWORD "1234"
+#endif
+
 #ifndef K15_LED_SERVER_DEFAULT_MAC_ADDRESS
 #define K15_LED_SERVER_DEFAULT_MAC_ADDRESS "7E:D5:E6:4E:6D:8C"
 #endif
@@ -34,6 +42,13 @@
 #define K15_LED_SERVER_DEFAULT_USE_DHCP 0
 #endif
 
+#ifndef K15_LED_SERVER_DEFAULT_HTML_SERVER_PORT
+#define K15_LED_SERVER_DEFAULT_HTML_SERVER_PORT 80
+#endif
+
+#ifndef K15_LED_SERVER_DEFAULT_CSGI_SERVER_PORT
+#define K15_LED_SERVER_DEFAULT_CSGI_SERVER_PORT 3500
+#endif
 
 ////RGB PINS////
 #ifndef K15_LED_SERVER_DEFAULT_LED_R0_PIN
@@ -207,6 +222,13 @@
 #define K15_LED_SERVER_DEFAULT_LCD_SWITCH_7_PIN 49
 #endif
 
+#ifndef countof
+#define countof(x) (sizeof(x) / sizeof(x[0]))
+#endif
+
+#ifndef writeToSerial
+#define writeToSerial(x) {/*if((config.flagMask & K15_LED_SERVER_SERIAL_OUT) > 0u)*/ Serial.print(x);}
+#endif
 
 typedef enum
 {
@@ -225,8 +247,16 @@ typedef enum
     K15_LED_SERVER_CONFIG_PARSER_STATE_MAC_ADDRESS  = 2,
     K15_LED_SERVER_CONFIG_PARSER_STATE_FLAG	        = 3,
     K15_LED_SERVER_CONFIG_PARSER_STATE_PIN	        = 4,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_LED_RGB_PINS	= 5
+    K15_LED_SERVER_CONFIG_PARSER_STATE_LED_RGB_PINS	= 5,
+    K15_LED_SERVER_CONFIG_PARSER_STATE_PORT	        = 6,
+    K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT	        = 7
 } kls_config_parser_state;
+
+typedef enum 
+{
+    K15_LED_SERVER_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN      = 0,
+    K15_LED_SERVER_CSGI_STATE_READ_TOKEN                     = 1
+} kls_csgi_state;
 
 typedef struct
 {
@@ -250,7 +280,10 @@ typedef struct
 typedef struct 
 {
     char                        keyToken[32];
+    uint8_t                     textBufferSize;
     kls_config_parser_state     state;
+    uint16_t*                   pPort;
+    char*                       pText;
     byte*                       pRGBPins;
     byte*                       pIPAddress;
     byte*                       pMacAddress;
@@ -261,9 +294,20 @@ typedef struct
 
 typedef struct 
 {
+    EthernetServer* pServer;
+    kls_csgi_state  state;
+} kls_csgi_context;
+
+typedef struct 
+{
+    EthernetServer* pHTMLServer;
     kls_lcd_pins    lcdPins;
     kls_lcd         lcds[8];
     kls_led_strip   ledStrips[8];
+    char            username[32];
+    char            password[32];
+    uint16_t        htmlServerPort;
+    uint16_t        csgiServerPort;
     byte            macAddress[6];  
     byte            ipAddress[4];
     byte            dnsAddress[4];
@@ -273,14 +317,7 @@ typedef struct
 } kls_config;
 
 kls_config config;
-
-void writeToSerial(const char* pMessage)
-{
-    //if ( ( config.flagMask & K15_LED_SERVER_SERIAL_OUT ) > 0u )
-    {
-        Serial.print(pMessage);
-    }
-}
+kls_csgi_context csgiContext;
 
 void copyByteBuffer(byte* pBufferTo, const byte* pBufferFrom, uint8_t length)
 {
@@ -366,7 +403,7 @@ byte hexStringToByte(byte* hex, uint8_t length)
 	return (asciiHexCharToByte(hex[0]) << 4) | asciiHexCharToByte(hex[1]);
 }
 
-byte decimalStringToByte( const char* pToken, uint8_t length )
+uint16_t decimalStringToUint16( const char* pToken, uint8_t length )
 {
     if (length == 0)
     {
@@ -378,14 +415,15 @@ byte decimalStringToByte( const char* pToken, uint8_t length )
         return 0;
     }
 
-    uint8_t multiplier = 1;
-    byte decimal = 0;
+    uint8_t i = length;
+	uint16_t decimal = 0;
+    uint16_t multiplier = 1;
 
-    for (uint8_t i = 1u; i < length - 1u; ++i)
-    {
-        decimal += asciiDecimalCharToByte(pToken[length - i]) * multiplier;
+	do 
+	{
+    	decimal += (uint16_t)asciiDecimalCharToByte(pToken[--i]) * multiplier;
         multiplier *= 10;
-    }
+	} while(i > 0);
 
     return decimal;
 }
@@ -455,6 +493,19 @@ byte isValidMacAddressToken(const char* pToken)
 	return (parts == 6);
 }
 
+byte isValidPortToken( const char* pToken )
+{
+    while (*pToken)
+    {
+        if(!isDecimalAscii(*pToken++))
+        {
+            return 0;
+        }  
+    }
+    
+    return 1;
+}
+
 byte tokenToIpAddress( byte* pOutIpAddress, const char* pToken )
 {
     uint8_t decimalIndex = 0u;
@@ -464,7 +515,7 @@ byte tokenToIpAddress( byte* pOutIpAddress, const char* pToken )
 	{
 		if( *pToken == '.' || *pToken == 0 ) 
 		{
-			*pOutIpAddress = decimalStringToByte( decimal, decimalIndex );
+			*pOutIpAddress = (byte)decimalStringToUint16( decimal, decimalIndex );
 			pOutIpAddress++;
 
 			decimalIndex = 0;
@@ -536,7 +587,7 @@ byte tokenToBool(byte* pFlagMask, uint8_t bitMask, const char* pToken)
 
 byte tokenToPin(uint8_t* pOutPin, const char* pToken, uint8_t tokenLength)
 {
-    *pOutPin = decimalStringToByte(pToken, tokenLength);
+    *pOutPin = (byte)decimalStringToUint16(pToken, tokenLength);
     return 1;
 }
 
@@ -581,11 +632,24 @@ byte tokenToRGBPins(uint8_t* pOutPins, const char* pToken)
         }
 
         ++pinCount;
-        *pOutPins++ = decimalStringToByte(pPinToken, pinTokenLength);
+        *pOutPins++ = (byte)decimalStringToUint16(pPinToken, pinTokenLength);
         pinTokenLength = 0;
     }
     
     return pinCount == 3;
+}
+
+byte tokenToPort( uint16_t* pOutPort, const char* pToken, uint8_t tokenLength)
+{
+    if (!isValidPortToken(pToken))
+    {
+        writeToSerial("is no valid port token\n");
+        return 0;
+    }
+
+    *pOutPort = decimalStringToUint16(pToken, tokenLength);
+    
+    return (*pOutPort >= 80);
 }
 
 byte stringContains( const char* pStack, const char* pNeedle )
@@ -654,6 +718,18 @@ void writeDefaultConfigIni()
         return;
     }
     
+    configFile.print("//login data\n");
+    
+    configFile.print("user=");
+    configFile.print(K15_LED_SERVER_DEFAULT_USER);
+    configFile.print("\n");
+
+    configFile.print("password=");
+    configFile.print(K15_LED_SERVER_DEFAULT_PASSWORD);
+    configFile.print("\n\n");
+
+    configFile.print("//network\n");
+
     configFile.print("mac_address=");
     configFile.print(K15_LED_SERVER_DEFAULT_MAC_ADDRESS);
     configFile.print("\n");
@@ -682,6 +758,16 @@ void writeDefaultConfigIni()
     
     configFile.print("gateway=");
     configFile.print(K15_LED_SERVER_DEFAULT_GATEWAY);
+    configFile.print("\n\n");
+
+    configFile.print("//server settings\n");
+
+    configFile.print("htmlserver_port=");
+    configFile.print(K15_LED_SERVER_DEFAULT_HTML_SERVER_PORT);
+    configFile.print("\n");
+
+    configFile.print("csgiserver_port=");
+    configFile.print(K15_LED_SERVER_DEFAULT_CSGI_SERVER_PORT);
     configFile.print("\n\n");
 
     configFile.print("//lcd settings\n");
@@ -860,9 +946,21 @@ byte parseConfigFile(kls_config* pConfig)
         {
             token[tokenIndex] = 0;
 
-            copyByteBuffer( ( byte* )parserContext.keyToken, ( byte* )token, tokenIndex);
+            copyByteBuffer( ( byte* )parserContext.keyToken, ( byte* )token, tokenIndex+1);
 
-            if (stringIsEqual(token, "mac_address"))
+            if (stringIsEqual(token, "user"))
+            {
+                parserContext.state	            = K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT;
+                parserContext.pText             = config.username;
+                parserContext.textBufferSize    = sizeof(config.username);
+            }
+            else if (stringIsEqual(token, "password"))
+            {
+                parserContext.state	            = K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT;
+                parserContext.pText             = config.password;
+                parserContext.textBufferSize    = sizeof(config.password);
+            }
+            else if (stringIsEqual(token, "mac_address"))
             {
                 parserContext.state         = K15_LED_SERVER_CONFIG_PARSER_STATE_MAC_ADDRESS;
                 parserContext.pMacAddress   = config.macAddress;
@@ -886,6 +984,16 @@ byte parseConfigFile(kls_config* pConfig)
             {
                 parserContext.state         = K15_LED_SERVER_CONFIG_PARSER_STATE_IP_ADDRESS;
                 parserContext.pIPAddress    = config.gateway;
+            }
+            else if (stringIsEqual(token, "htmlserver_port"))
+            {
+                parserContext.state     = K15_LED_SERVER_CONFIG_PARSER_STATE_PORT;
+                parserContext.pPort     = &config.htmlServerPort;
+            }
+            else if (stringIsEqual(token, "csgiserver_port"))
+            {
+                parserContext.state     = K15_LED_SERVER_CONFIG_PARSER_STATE_PORT;
+                parserContext.pPort     = &config.csgiServerPort;
             }
             else if (stringIsEqual(token, "serial_out"))
             {
@@ -1022,6 +1130,32 @@ byte parseConfigFile(kls_config* pConfig)
                     return 0;
                 }
             }
+            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_PORT)
+            {
+                if (!tokenToPort(parserContext.pPort, token, tokenIndex))
+                {
+                    writeToSerial("Error: token '");
+                    writeToSerial(parserContext.keyToken);
+                    writeToSerial("' has invalid value '");
+                    writeToSerial(token);
+                    writeToSerial("' (valid value range is 80-65535).\n");
+                    return 0;
+                }
+            }
+            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT)
+            {
+                if (tokenIndex > parserContext.textBufferSize)
+                {
+                    writeToSerial("Error: token '");
+                    writeToSerial(parserContext.keyToken);
+                    writeToSerial("' is too long. Max size: ");
+                    writeToSerial(parserContext.textBufferSize);
+                    writeToSerial(".\n");
+                    return 0;
+                }
+
+                copyByteBuffer((byte*)parserContext.pText, (byte*)token, tokenIndex+1);
+            }
 
             tokenIndex = 0;
             parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_READ_TOKEN;
@@ -1088,14 +1222,32 @@ void setup()
         writeToSerial("Could not parse config file.\n");
         return;
     }
+    
+    LiquidCrystal* pLCD = new LiquidCrystal( config.lcdPins.rsPin, config.lcdPins.enablePin, 
+        config.lcdPins.dbPins[0], config.lcdPins.dbPins[1], config.lcdPins.dbPins[2],
+        config.lcdPins.dbPins[5], config.lcdPins.dbPins[4], config.lcdPins.dbPins[5],
+        config.lcdPins.dbPins[6], config.lcdPins.dbPins[7] );
 
-    if ( ( config.flagMask & K15_LED_SERVER_SERIAL_OUT ) > 0u )
+    if (!pLCD)
     {
-        Serial.begin( 9600 );
+        writeToSerial("Out of memory.\n");
+        return;
     }
 
-    //FK: set to success eventhough ethernet has not been initialized yet
-    config.flagMask |= K15_LED_SERVER_INIT_SUCCESS;
+    pLCD->begin(16, 2);
+
+    for (uint8_t ledIndex = 0; ledIndex < countof(config.ledStrips); ++ledIndex)
+    {
+        pinMode(config.ledStrips[ledIndex].rgbPins[0], OUTPUT);
+        pinMode(config.ledStrips[ledIndex].rgbPins[1], OUTPUT);
+        pinMode(config.ledStrips[ledIndex].rgbPins[2], OUTPUT);
+    }
+
+    for (uint8_t lcdIndex = 0; lcdIndex < countof(config.lcds); ++lcdIndex)
+    {
+        config.lcds[lcdIndex].pLCD = pLCD;
+        pinMode(config.lcds[lcdIndex].switchPin, OUTPUT);
+    }
 
     byte hasAddress = 0;
     if ( ( config.flagMask & K15_LED_SERVER_USE_DHCP ) > 0u )
@@ -1115,15 +1267,6 @@ void setup()
     {
         return;
     }
-
-    //init ethernet chip
-    #if 0
-    if (W5100.init() == 0)
-    {
-        writeToSerial("Error: Could not init the Ethernet chip.\n");
-        return;
-    }
-    #endif
 
     IPAddress ipAddress( config.ipAddress[0], config.ipAddress[1], config.ipAddress[2], config.ipAddress[3] );
 
@@ -1172,8 +1315,86 @@ void setup()
     if (Ethernet.linkStatus() != LinkON)
     {
         writeToSerial("Warning: No network cable is plugged in.\n");
+        //return;
+    }
+
+    csgiContext.pServer = new EthernetServer(config.csgiServerPort); 
+    csgiContext.state   = K15_LED_SERVER_CSGI_STATE_READ_TOKEN;
+
+    config.pHTMLServer = new EthernetServer(config.htmlServerPort);
+
+    if (config.pHTMLServer == NULL || csgiContext.pServer == NULL)
+    {
+        writeToSerial("Error: Out of Memory\n");
         return;
     }
+
+    config.pHTMLServer->begin();
+    csgiContext.pServer->begin();
+
+    config.flagMask |= K15_LED_SERVER_INIT_SUCCESS;
+}
+
+void send200ResponseToClient(EthernetClient* pClient)
+{
+}
+
+void handleHTMLClients()
+{
+    EthernetClient client = config.pHTMLServer->available();
+
+    if (client)
+    {
+        writeToSerial("New HTML Client.");
+    }
+
+    //FK: TODO: Read GET and decide what page the user wants (?)
+}
+
+void handleCSGIClients()
+{
+    EthernetClient client = csgiContext.pServer->available();
+
+    if (client)
+    {
+        writeToSerial("New CSGI Client.");
+    }
+
+    char token[32];
+    uint8_t tokenIndex = 0u;
+    if (client.connected())
+    {
+        while(client.available())
+        {
+            char tokenChar = client.read();
+
+            if (csgiContext.state == K15_LED_SERVER_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN)
+            {
+                //FK: Eat whitespaces
+                if (tokenChar != '"')
+                {
+                    continue;
+                }
+
+                csgiContext.state = K15_LED_SERVER_CSGI_STATE_READ_TOKEN;
+            }
+            else if (csgiContext.state == K15_LED_SERVER_CSGI_STATE_READ_TOKEN)
+            {
+                if (tokenChar == '"' || tokenChar == ',' || tokenChar == '}')
+                {
+                    token[tokenIndex] = 0;
+                    csgiContext.state = K15_LED_SERVER_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN;
+                    continue;
+                }
+
+                token[tokenIndex++] = tokenChar;
+            }
+        }
+    }
+
+    send200ResponseToClient(&client);
+
+    client.stop();
 }
 
 void loop()
@@ -1181,5 +1402,16 @@ void loop()
     if( ( config.flagMask & K15_LED_SERVER_INIT_SUCCESS ) == 0)
     {
         delay( 1000 );
+        return;
     }
+
+    const unsigned long startMicros = millis();
+
+    handleHTMLClients();
+    handleCSGIClients();
+
+    const unsigned long endMicros = millis();
+    const unsigned long deltaMillis = endMicros - startMicros;
+
+    Serial.println(deltaMillis);
 }
