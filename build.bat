@@ -20,5 +20,9 @@ if not exist "!arduino_path!arduino-builder.exe" (
     exit /b 1
 )
 
+if not exist "%cd%\bin" (
+    mkdir "%cd%\bin"
+)
+
 set command=!arduino_path!arduino-builder.exe -compile -build-path "%cd%\bin" -tools "!arduino_path!tools" -tools "!arduino_path!hardware\tools" -tools "!arduino_path!tools-builder" -hardware "!arduino_path!hardware" -libraries "!arduino_path!libraries" -fqbn !fpqn! -warnings default !main_c_file!
 call !command!
