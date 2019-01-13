@@ -1,0 +1,15 @@
+#k15_headtext {
+    text-align: center;
+    text-decoration: underline;
+}
+
+#k15_header {
+    padding: 10px 16px;
+    background: #555;
+    color: azure;
+}
+
+#k15_main {
+    padding: 50px 10px;
+    background: beige;
+}
