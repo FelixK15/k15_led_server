@@ -6,6 +6,10 @@
 #define K15_LED_SERVER_CONFIG_PATH "config.ini"
 #endif
 
+#ifndef K15_LED_SERVER_CSGI_CONFIG_PATH
+#define K15_LED_SERVER_CSGI_CONFIG_PATH "downloads/k15_led_server.cfg"
+#endif
+
 #ifndef K15_LED_SERVER_DEFAULT_USER
 #define K15_LED_SERVER_DEFAULT_USER "admin"
 #endif
@@ -242,22 +246,6 @@
 
 #ifndef K15_LED_SERVER_DEFAULT_ETHERNET_PIN
 #define K15_LED_SERVER_DEFAULT_ETHERNET_PIN 10
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_SS_PIN
-#define K15_LED_SERVER_DEFAULT_SS_PIN 53
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_SCK_PIN
-#define K15_LED_SERVER_DEFAULT_SCK_PIN 52
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_MOSI_PIN
-#define K15_LED_SERVER_DEFAULT_MOSI_PIN 51
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_MISO_PIN
-#define K15_LED_SERVER_DEFAULT_MISO_PIN 50
 #endif
 
 #ifndef countof
@@ -652,7 +640,42 @@ byte tokenToBool(byte* pFlagMask, uint8_t bitMask, const char* pToken)
 
 byte tokenToPin(uint8_t* pOutPin, const char* pToken, uint8_t tokenLength)
 {
-    *pOutPin = (byte)decimalStringToUint16(pToken, tokenLength);
+    const uint8_t pin = (uint8_t)decimalStringToUint16(pToken, tokenLength);
+
+    if (pin == PIN_SPI_SCK)
+    {
+        writeToSerial("Pin '");
+        writeToSerial(pin);
+        writeToSerial("' is reserved for SPI_SCK.\n");
+
+        return 0;
+    }
+    else if (pin == PIN_SPI_MISO)
+    {
+        writeToSerial("Pin '");
+        writeToSerial(pin);
+        writeToSerial("' is reserved for SPI_MISO.\n");
+
+        return 0;
+    }
+    else if (pin == PIN_SPI_MOSI)
+    {
+        writeToSerial("Pin '");
+        writeToSerial(pin);
+        writeToSerial("' is reserved for SPI_MOSI.\n");
+
+        return 0;
+    }
+    else if (pin == PIN_SPI_SS)
+    {
+        writeToSerial("Pin '");
+        writeToSerial(pin);
+        writeToSerial("' is reserved for SPI_SS.\n");
+
+        return 0;
+    }
+
+    *pOutPin = pin;
     return 1;
 }
 
@@ -837,6 +860,47 @@ void enableSlaveEthernet()
 {
     digitalWrite(K15_LED_SERVER_DEFAULT_SD_PIN,         HIGH);
     digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,   LOW);
+}
+
+void writeCSGIConfig()
+{
+    //FK: remove old config
+    SD.remove(K15_LED_SERVER_CSGI_CONFIG_PATH);
+
+    File configFile = SD.open(K15_LED_SERVER_CSGI_CONFIG_PATH, FILE_WRITE);
+
+    if( !configFile )
+    {
+        writeToSerial(F("Error: Could not create config file '"));
+        writeToSerial(K15_LED_SERVER_CSGI_CONFIG_PATH);
+        writeToSerial("'\n");
+        return;
+    }
+
+    configFile.print("\"K15 LED Server v.1\"\n");
+    configFile.print("{\n");
+    configFile.print("\t\"uri\"\t\"http://");
+    configFile.print(Ethernet.localIP());
+    configFile.print(":");
+    configFile.print(config.csgiServerPort);
+    configFile.print("\"\n");
+    configFile.print("\t\"timeout\"\t\"5.0\"\n");
+    configFile.print("\t\"throttle\"\t\"0.5\"\n");
+    configFile.print("\t\"heartbeat\"\t\"30.0\"\n");
+    configFile.print("\t\"data\"\n");
+    configFile.print("\t{\n");
+    configFile.print("\t\t\"provider\"\t\"1\"\n");
+    configFile.print("\t\t\"map\"\t\"1\"\n");
+    configFile.print("\t\t\"round\"\t\"1\"\n");
+    configFile.print("\t\t\"player_id\"\t\"0\"\n");
+    configFile.print("\t\t\"player_state\"\t\"1\"\n");
+    configFile.print("\t\t\"player_weapons\"\t\"0\"\n");
+    configFile.print("\t\t\"player_match_stats\"\t\"1\"\n");
+    configFile.print("\t}\n");
+    configFile.print("}\n");
+
+    configFile.flush();
+    configFile.close();
 }
 
 void writeDefaultConfigIni()
@@ -1332,10 +1396,10 @@ void setup()
 {
     Serial.begin( 9600 );
 
-    pinMode(K15_LED_SERVER_DEFAULT_SCK_PIN,         OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_MOSI_PIN,        OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_SS_PIN,          OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_MISO_PIN,        INPUT);
+    pinMode(PIN_SPI_SCK,         OUTPUT);
+    pinMode(PIN_SPI_MOSI,        OUTPUT);
+    pinMode(PIN_SPI_SS,          OUTPUT);
+    pinMode(PIN_SPI_MISO,        INPUT);
 
     pinMode(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,    OUTPUT);
     pinMode(K15_LED_SERVER_DEFAULT_SD_PIN,          OUTPUT);
@@ -1344,10 +1408,10 @@ void setup()
     pinMode(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN,  OUTPUT);
     pinMode(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN,       OUTPUT);
 
-    digitalWrite(K15_LED_SERVER_DEFAULT_SCK_PIN,      HIGH);
-    digitalWrite(K15_LED_SERVER_DEFAULT_MOSI_PIN,     HIGH);
-    digitalWrite(K15_LED_SERVER_DEFAULT_SS_PIN,       HIGH);
-    digitalWrite(K15_LED_SERVER_DEFAULT_MISO_PIN,     HIGH);
+    digitalWrite(PIN_SPI_SCK,      HIGH);
+    digitalWrite(PIN_SPI_MOSI,     HIGH);
+    digitalWrite(PIN_SPI_SS,       HIGH);
+    digitalWrite(PIN_SPI_MISO,     HIGH);
 
     digitalWrite(K15_LED_SERVER_DEFAULT_SD_ERROR_PIN,       LOW);
     digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN, LOW);
@@ -1360,6 +1424,11 @@ void setup()
         writeToSerial(F("Could not initialize SD library\n"));
         config.flagMask |= K15_LED_SERVER_INIT_SD_ERROR;
         return;
+    }
+
+    if (!SD.exists("downloads/"))
+    {
+        SD.mkdir("downloads");
     }
 
     //DEBUG
@@ -1484,6 +1553,10 @@ void setup()
         return;
     }
 
+    enableSlaveSD();
+    writeCSGIConfig();
+    enableSlaveEthernet();
+    
     csgiContext.pServer = new EthernetServer(config.csgiServerPort); 
     csgiContext.state   = K15_LED_SERVER_CSGI_STATE_READ_TOKEN;
 
