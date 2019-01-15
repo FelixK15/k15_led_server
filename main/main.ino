@@ -1,13 +1,13 @@
 #include <SD.h>
-#include <Ethernet.h>
 #include <LiquidCrystal.h>
+#include <Ethernet.h>
 
 #ifndef K15_LED_SERVER_CONFIG_PATH
 #define K15_LED_SERVER_CONFIG_PATH "config.ini"
 #endif
 
 #ifndef K15_LED_SERVER_CSGI_CONFIG_PATH
-#define K15_LED_SERVER_CSGI_CONFIG_PATH "downloads/k15_led_server.cfg"
+#define K15_LED_SERVER_CSGI_CONFIG_PATH "k15_lsrv.cfg"
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_USER
@@ -43,7 +43,7 @@
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_USE_DHCP
-#define K15_LED_SERVER_DEFAULT_USE_DHCP 1
+#define K15_LED_SERVER_DEFAULT_USE_DHCP 0
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_HTML_SERVER_PORT
@@ -153,15 +153,15 @@
 
 ////LCD PINS
 #ifndef K15_LED_SERVER_DEFAULT_LCD_DB0_PIN 
-#define K15_LED_SERVER_DEFAULT_LCD_DB0_PIN 52
+#define K15_LED_SERVER_DEFAULT_LCD_DB0_PIN 1
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_1 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_1 50
+#define K15_LED_SERVER_DEFAULT_lcd_db_pin_1 2
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_2 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_2 48
+#define K15_LED_SERVER_DEFAULT_lcd_db_pin_2 3
 #endif
 
 #ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_3 
@@ -283,9 +283,9 @@ typedef enum
 typedef enum
 {
     K15_LED_SERVER_HTML_STATE_READ_METHOD       = 0,
-    K15_LED_SERVER_HTML_STATE_READ_PATH	        = 1,
-    K15_LED_SERVER_HTML_STATE_READ_PARAMETERS	= 2,
-    K15_LED_SERVER_HTML_STATE_IGNORE_TOKENS	    = 3
+    K15_LED_SERVER_HTML_STATE_READ_PATH          = 1,
+    K15_LED_SERVER_HTML_STATE_READ_PARAMETERS = 2,
+    K15_LED_SERVER_HTML_STATE_IGNORE_TOKENS     = 3
 } kls_html_request_parser_state;
 
 typedef enum 
@@ -864,48 +864,45 @@ void enableSlaveEthernet()
 
 void writeCSGIConfig()
 {
-    //FK: remove old config
     SD.remove(K15_LED_SERVER_CSGI_CONFIG_PATH);
-
-    File configFile = SD.open(K15_LED_SERVER_CSGI_CONFIG_PATH, FILE_WRITE);
+    File configFile = SD.open(K15_LED_SERVER_CSGI_CONFIG_PATH, O_CREAT | O_WRITE | O_TRUNC);
 
     if( !configFile )
     {
-        writeToSerial(F("Error: Could not create config file '"));
+        writeToSerial(F("Error: Could not create csgi config file '"));
         writeToSerial(K15_LED_SERVER_CSGI_CONFIG_PATH);
         writeToSerial("'\n");
         return;
     }
 
-    configFile.print("\"K15 LED Server v.1\"\n");
-    configFile.print("{\n");
-    configFile.print("\t\"uri\"\t\"http://");
-    configFile.print(Ethernet.localIP());
-    configFile.print(":");
+    configFile.print(F("\"K15 LED Server v.1\"\n"));
+    configFile.print(F("{\n"));
+    configFile.print(F("\t\"uri\"\t\"http://"));
+   // configFile.print(Ethernet.localIP());
+    configFile.print(F(":"));
     configFile.print(config.csgiServerPort);
-    configFile.print("\"\n");
-    configFile.print("\t\"timeout\"\t\"5.0\"\n");
-    configFile.print("\t\"throttle\"\t\"0.5\"\n");
-    configFile.print("\t\"heartbeat\"\t\"30.0\"\n");
-    configFile.print("\t\"data\"\n");
-    configFile.print("\t{\n");
-    configFile.print("\t\t\"provider\"\t\"1\"\n");
-    configFile.print("\t\t\"map\"\t\"1\"\n");
-    configFile.print("\t\t\"round\"\t\"1\"\n");
-    configFile.print("\t\t\"player_id\"\t\"0\"\n");
-    configFile.print("\t\t\"player_state\"\t\"1\"\n");
-    configFile.print("\t\t\"player_weapons\"\t\"0\"\n");
-    configFile.print("\t\t\"player_match_stats\"\t\"1\"\n");
-    configFile.print("\t}\n");
-    configFile.print("}\n");
+    configFile.print(F("\"\n"));
+    configFile.print(F("\t\"timeout\"\t\"5.0\"\n"));
+    configFile.print(F("\t\"throttle\"\t\"0.5\"\n"));
+    configFile.print(F("\t\"heartbeat\"\t\"30.0\"\n"));
+    configFile.print(F("\t\"data\"\n"));
+    configFile.print(F("\t{\n"));
+    configFile.print(F("\t\t\"provider\"\t\"1\"\n"));
+    configFile.print(F("\t\t\"map\"\t\"1\"\n"));
+    configFile.print(F("\t\t\"round\"\t\"1\"\n"));
+    configFile.print(F("\t\t\"player_id\"\t\"0\"\n"));
+    configFile.print(F("\t\t\"player_state\"\t\"1\"\n"));
+    configFile.print(F("\t\t\"player_weapons\"\t\"0\"\n"));
+    configFile.print(F("\t\t\"player_match_stats\"\t\"1\"\n"));
+    configFile.print(F("\t}\n"));
+    configFile.print(F("}\n"));
 
-    configFile.flush();
     configFile.close();
 }
 
 void writeDefaultConfigIni()
 {
-    File configFile = SD.open(K15_LED_SERVER_CONFIG_PATH, FILE_WRITE);
+    File configFile = SD.open(K15_LED_SERVER_CONFIG_PATH, O_CREAT | O_WRITE | O_TRUNC);
 
     if( !configFile )
     {
@@ -1132,10 +1129,11 @@ byte parseConfigFile(kls_config* pConfig)
     kls_config_parser_context parserContext;
     parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_READ_TOKEN;
 
+    byte result = 1;
     uint8_t tokenIndex = 0u;
     char token[32];
     
-    File configFile = SD.open(K15_LED_SERVER_CONFIG_PATH, FILE_READ);
+    File configFile = SD.open(K15_LED_SERVER_CONFIG_PATH, O_READ);
     while (configFile.peek() != -1)
     {
         byte tokenChar = configFile.read();
@@ -1277,7 +1275,8 @@ byte parseConfigFile(kls_config* pConfig)
                     writeToSerial(F("' has invalid value '"));
                     writeToSerial(token);
                     writeToSerial(F("' (valid example: 192.168.1.51).\n"));
-                    return 0;
+                    result = 0;
+                    goto cleanUp;
                 }
             }
             else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_MAC_ADDRESS)
@@ -1289,7 +1288,8 @@ byte parseConfigFile(kls_config* pConfig)
                     writeToSerial(F("' has invalid value '"));
                     writeToSerial(token);
                     writeToSerial(F("' (valid example: AA:BB:CC:DD:EE:FF).\n"));
-                    return 0;
+                    result = 0;
+                    goto cleanUp;
                 }
             }
             else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_FLAG)
@@ -1301,7 +1301,8 @@ byte parseConfigFile(kls_config* pConfig)
                     writeToSerial(F("' has invalid value '"));
                     writeToSerial(token);
                     writeToSerial(F("' (only valid values are '1' or '0').\n"));
-                    return 0;
+                    result = 0;
+                    goto cleanUp;
                 }
             }
             else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_PIN)
@@ -1313,7 +1314,8 @@ byte parseConfigFile(kls_config* pConfig)
                     writeToSerial(F("' has invalid value '"));
                     writeToSerial(token);
                     writeToSerial(F("' (only valid values are valid pin identifier).\n"));
-                    return 0;
+                    result = 0;
+                    goto cleanUp;
                 }
             }
             else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_LED_RGB_PINS)
@@ -1325,7 +1327,8 @@ byte parseConfigFile(kls_config* pConfig)
                     writeToSerial(F("' has invalid value '"));
                     writeToSerial(token);
                     writeToSerial(F("' (only valid values are valid pin identifier in a tuple like '[1, 3, 4]).\n"));
-                    return 0;
+                    result = 0;
+                    goto cleanUp;
                 }
             }
             else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_PORT)
@@ -1337,7 +1340,8 @@ byte parseConfigFile(kls_config* pConfig)
                     writeToSerial(F("' has invalid value '"));
                     writeToSerial(token);
                     writeToSerial(F("' (valid value range is 80-65535).\n"));
-                    return 0;
+                    result = 0;
+                    goto cleanUp;
                 }
             }
             else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT)
@@ -1349,7 +1353,8 @@ byte parseConfigFile(kls_config* pConfig)
                     writeToSerial(F("' is too long. Max size: "));
                     writeToSerial(parserContext.textBufferSize);
                     writeToSerial(F(".\n"));
-                    return 0;
+                    result = 0;
+                    goto cleanUp;
                 }
 
                 copyByteBuffer((byte*)parserContext.pText, (byte*)token, tokenIndex+1);
@@ -1389,7 +1394,11 @@ byte parseConfigFile(kls_config* pConfig)
         }
     }
 
-    return 1;
+    cleanUp:
+      configFile.flush();
+      configFile.close();
+
+    return result;
 }
 
 void setup()
@@ -1426,11 +1435,6 @@ void setup()
         return;
     }
 
-    if (!SD.exists("downloads/"))
-    {
-        SD.mkdir("downloads");
-    }
-
     //DEBUG
     SD.remove( K15_LED_SERVER_CONFIG_PATH );
 
@@ -1447,6 +1451,7 @@ void setup()
         return;
     }
 
+    writeCSGIConfig();
     enableSlaveEthernet();
 
     #if 0
@@ -1552,10 +1557,6 @@ void setup()
         writeToSerial(F("Warning: No network cable is plugged in.\n"));
         return;
     }
-
-    enableSlaveSD();
-    writeCSGIConfig();
-    enableSlaveEthernet();
     
     csgiContext.pServer = new EthernetServer(config.csgiServerPort); 
     csgiContext.state   = K15_LED_SERVER_CSGI_STATE_READ_TOKEN;
