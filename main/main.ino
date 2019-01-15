@@ -244,6 +244,22 @@
 #define K15_LED_SERVER_DEFAULT_ETHERNET_PIN 10
 #endif
 
+#ifndef K15_LED_SERVER_DEFAULT_SS_PIN
+#define K15_LED_SERVER_DEFAULT_SS_PIN 53
+#endif
+
+#ifndef K15_LED_SERVER_DEFAULT_SCK_PIN
+#define K15_LED_SERVER_DEFAULT_SCK_PIN 52
+#endif
+
+#ifndef K15_LED_SERVER_DEFAULT_MOSI_PIN
+#define K15_LED_SERVER_DEFAULT_MOSI_PIN 51
+#endif
+
+#ifndef K15_LED_SERVER_DEFAULT_MISO_PIN
+#define K15_LED_SERVER_DEFAULT_MISO_PIN 50
+#endif
+
 #ifndef countof
 #define countof(x) (sizeof(x) / sizeof(x[0]))
 #endif
@@ -276,10 +292,25 @@ typedef enum
     K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT         = 7
 } kls_config_parser_state;
 
+typedef enum
+{
+    K15_LED_SERVER_HTML_STATE_READ_METHOD       = 0,
+    K15_LED_SERVER_HTML_STATE_READ_PATH	        = 1,
+    K15_LED_SERVER_HTML_STATE_READ_PARAMETERS	= 2,
+    K15_LED_SERVER_HTML_STATE_IGNORE_TOKENS	    = 3
+} kls_html_request_parser_state;
+
+typedef enum 
+{
+    K15_LED_SERVER_HTML_GET_METHOD      = 0,
+    K15_LED_SERVER_HTML_POST_METHOD     = 1,
+    K15_LED_SERVER_HTML_UNKNOWN_METHOD  = 2
+} kls_html_request_method;
+
 typedef enum 
 {
     K15_LED_SERVER_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN      = 0,
-    K15_LED_SERVER_CSGI_STATE_READ_TOKEN                     = 1
+    K15_LED_SERVER_CSGI_STATE_READ_TOKEN                    = 1,
 } kls_csgi_state;
 
 typedef struct
@@ -369,6 +400,11 @@ byte isDecimalAscii( char asciiChar )
 byte isHexAscii( char asciiChar )
 {
     return asciiChar >= 48 && asciiChar <= 57 || asciiChar >= 'a' && asciiChar <= 'f' || asciiChar >= 'A' && asciiChar <= 'F'; 
+}
+
+byte isTextAscii( char asciiChar )
+{
+    return asciiChar >= 'a' && asciiChar <= 'z' || asciiChar >= 'A' && asciiChar <= 'Z';
 }
 
 byte asciiHexCharToByte(char hexChar)
@@ -733,6 +769,74 @@ byte stringIsEqual(const char* pStringA, const char* pStringB)
     }
 
     return equal;
+}
+
+char decimalToAsciiChar(uint8_t decimal)
+{
+    return decimal + 48;
+}
+
+byte isValidPath(const char* pPath, uint8_t pathLength)
+{
+    if (pPath == NULL)
+    {
+        return 0;
+    }
+
+    if (pathLength == 0)
+    {
+        return 0;
+    }
+
+    int8_t pathDepth = 0;
+    uint8_t charIndex = 0u;
+
+    do 
+    {
+        char pathChar = pPath[charIndex];
+
+        if (pathChar == '.' && charIndex > 0u && pPath[charIndex - 1] == '.')
+        {
+            pathDepth -= 1;
+        }
+        else if (pathChar == '/' || pathChar == '\\')
+        {
+            pathDepth += 1;
+        }
+    } while( ++charIndex < pathLength );
+
+    return pathDepth >= 0;
+}
+
+void decimalToAsciiString(uint16_t value, char* pString, uint8_t stringLength)
+{
+    uint8_t stringIndex = 0;
+
+    while (value != 0)
+    {
+        const uint8_t i = value % 10;
+        value -= i;
+        value /= 10;
+
+        pString[stringIndex++] = decimalToAsciiChar(i);
+
+        if (stringIndex == stringLength)
+        {
+            return;
+        }  
+    }
+}
+
+void enableSlaveSD()
+{
+    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN, HIGH);
+    digitalWrite(K15_LED_SERVER_DEFAULT_SD_PIN,             LOW);
+}
+
+void enableSlaveEthernet()
+{
+    digitalWrite(K15_LED_SERVER_DEFAULT_SD_PIN,         HIGH);
+    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,   LOW);
 }
 
 void writeDefaultConfigIni()
@@ -1228,32 +1332,42 @@ void setup()
 {
     Serial.begin( 9600 );
 
-    pinMode(53,    OUTPUT);
+    pinMode(K15_LED_SERVER_DEFAULT_SCK_PIN,         OUTPUT);
+    pinMode(K15_LED_SERVER_DEFAULT_MOSI_PIN,        OUTPUT);
+    pinMode(K15_LED_SERVER_DEFAULT_SS_PIN,          OUTPUT);
+    pinMode(K15_LED_SERVER_DEFAULT_MISO_PIN,        INPUT);
+
     pinMode(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,    OUTPUT);
     pinMode(K15_LED_SERVER_DEFAULT_SD_PIN,          OUTPUT);
 
-    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,   HIGH);
-    digitalWrite(K15_LED_SERVER_DEFAULT_SD_PIN,         LOW);
-    digitalWrite(53,   HIGH);
+    pinMode(K15_LED_SERVER_DEFAULT_SD_ERROR_PIN,        OUTPUT);
+    pinMode(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN,  OUTPUT);
+    pinMode(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN,       OUTPUT);
+
+    digitalWrite(K15_LED_SERVER_DEFAULT_SCK_PIN,      HIGH);
+    digitalWrite(K15_LED_SERVER_DEFAULT_MOSI_PIN,     HIGH);
+    digitalWrite(K15_LED_SERVER_DEFAULT_SS_PIN,       HIGH);
+    digitalWrite(K15_LED_SERVER_DEFAULT_MISO_PIN,     HIGH);
+
+    digitalWrite(K15_LED_SERVER_DEFAULT_SD_ERROR_PIN,       LOW);
+    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN, LOW);
+    digitalWrite(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN,      LOW);
+
+    enableSlaveSD();
 
     if( !SD.begin() )
     {
         writeToSerial(F("Could not initialize SD library\n"));
         config.flagMask |= K15_LED_SERVER_INIT_SD_ERROR;
-        
-        //FK: TODO: blink red LED
         return;
     }
 
-    sendPage(NULL, "test.html");
-    //debug
+    //DEBUG
     SD.remove( K15_LED_SERVER_CONFIG_PATH );
 
     if ( !SD.exists( K15_LED_SERVER_CONFIG_PATH ) )
     {
         writeToSerial(F("Creating default config...\n"));
-        
-        //FK: Create new config ini
         writeDefaultConfigIni();
     }
 
@@ -1264,10 +1378,9 @@ void setup()
         return;
     }
 
-    digitalWrite(K15_LED_SERVER_DEFAULT_SD_PIN,         HIGH);
-    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,   LOW);
-    
-    #if 1
+    enableSlaveEthernet();
+
+    #if 0
     LiquidCrystal* pLCD = new LiquidCrystal( config.lcdPins.rsPin, config.lcdPins.enablePin, 
         config.lcdPins.dbPins[0], config.lcdPins.dbPins[1], config.lcdPins.dbPins[2],
         config.lcdPins.dbPins[5], config.lcdPins.dbPins[4], config.lcdPins.dbPins[5],
@@ -1278,8 +1391,6 @@ void setup()
         writeToSerial("Out of memory.\n");
         return;
     }
-
-    
 
     pLCD->begin(16, 2);
     pLCD->print("TEST");
@@ -1297,13 +1408,9 @@ void setup()
     }
     #endif
 
-    pinMode(K15_LED_SERVER_DEFAULT_SD_ERROR_PIN,        OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN,  OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN,       OUTPUT);
+   
 
-    digitalWrite(K15_LED_SERVER_DEFAULT_SD_ERROR_PIN,       LOW);
-    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN, LOW);
-    digitalWrite(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN,      LOW);
+   
 
     byte hasAddress = 0;
     if ( ( config.flagMask & K15_LED_SERVER_USE_DHCP ) > 0u )
@@ -1399,51 +1506,47 @@ void setup()
     digitalWrite(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN, HIGH);
 }
 
-void send200ResponseToClient(EthernetClient* pClient)
+void sendResponseToClient(EthernetClient* pClient, uint16_t code)
 {
-    static const char response[] = "HTTP/1.1 200 OK\n"
-    "Content-Type: text/html\n"
-    "Connection: close\n";
-    pClient->write(response, sizeof(response));
-    //pClient->print(response);
+    static char responseBuffer[] = "HTTP/1.1 XXX\r\n\r\n";
+    decimalToAsciiString(code, responseBuffer + 8u, 3u);
+    
+    pClient->write(responseBuffer, sizeof(responseBuffer));
 }
 
-void sendPage(EthernetClient* pClient, const char* pPage)
+void sendFileToHTMLClient(EthernetClient* pClient, const char* pFile)
 {
-    char buffer[512];
+    enableSlaveSD();
 
-    File p = SD.open(pPage, FILE_WRITE);
-    p.write("test");
-    p.close();
+    File fileHandle = SD.open(pFile, FILE_READ);
+    byte buffer[2048u];
 
-    delay(1000);
-
-    if (!SD.exists(pPage))
+    int16_t bytesRead = 0u;
+    do 
     {
-        writeToSerial("Could not find ");
-        writeToSerial(pPage);
-        writeToSerial("\n");
+        enableSlaveSD();
+        bytesRead = fileHandle.read(buffer, sizeof(buffer));
 
-        return;
-    }
-    File page = SD.open(pPage, FILE_READ);
-    
-    int bytesRead = page.read(buffer, sizeof(buffer));
-    if (bytesRead < 0)
-    {
-        page.close();
-        return;
-    }
-    
-    do
-    {
-        //pClient->write(buffer, bytesRead);  
-        writeToSerial(buffer);
-        bytesRead = page.read(buffer, sizeof(buffer));
-    } while(bytesRead > 0);
+        enableSlaveEthernet();
+        pClient->write(buffer, bytesRead);
+    } while(bytesRead == sizeof(buffer));
 
-    page.close();
+    enableSlaveSD();
+    fileHandle.close();
+    enableSlaveEthernet();
 }
+
+//HTML CODES: 
+//  200 - OK
+//  301 - MOVED PERMANENTLY
+//  302 - FOUND (how is this different from 200?) 
+//  304 - NOT MODIFIED 
+//  400 - BAD REQUEST 
+//  401 - UNAUTHORIZED 
+//  403 - FORBIDDEN 
+//  404 - NOT FOUND 
+//  500 - INTERNAL SERVER ERROR 
+//  502 - BAD GATEWAY 
 
 void handleHTMLClients()
 {
@@ -1451,17 +1554,102 @@ void handleHTMLClients()
 
     if (client)
     {
+        kls_html_request_parser_state state = K15_LED_SERVER_HTML_STATE_READ_METHOD;
+        kls_html_request_method method      = K15_LED_SERVER_HTML_UNKNOWN_METHOD;
+    
+        char token[128];
+        uint8_t tokenIndex = 0u;
         while (client.available())
         {
-            writeToSerial((char)client.read());
-        }
+            char clientChar = client.read();
 
-        send200ResponseToClient(&client);
-        sendPage(&client, "index.html");
+            if (clientChar == ' ' || clientChar == '\n')
+            { 
+                token[tokenIndex] = 0;
+
+                if (state == K15_LED_SERVER_HTML_STATE_READ_METHOD)
+                {
+                    if (stringIsEqual(token, "GET"))
+                    {
+                        method  = K15_LED_SERVER_HTML_GET_METHOD;
+                        state   = K15_LED_SERVER_HTML_STATE_READ_PATH;
+
+                        token[0] = 's';
+                        token[1] = 'd';
+                        tokenIndex = 2;
+                    }
+                    else if( stringIsEqual(token, "POST"))
+                    {
+                        method = K15_LED_SERVER_HTML_POST_METHOD;
+                    }
+                    else 
+                    {
+                        writeToSerial("Error: Unknown HTML method '");
+                        writeToSerial(token);
+                        writeToSerial("'.");
+
+                        sendResponseToClient(&client, 400);
+                        break;
+                    }
+                }
+                else if (state == K15_LED_SERVER_HTML_STATE_READ_PATH)
+                {
+                    if (!isValidPath(token, tokenIndex))
+                    {
+                        writeToSerial("Error: Path '");
+                        writeToSerial(token);
+                        writeToSerial("' is invalid.\n");
+
+                        sendResponseToClient(&client, 401);
+                        break;
+                    }
+
+                    if (stringIsEqual(token, "/"))
+                    {
+                        const char indexFile[] = "/index.html\0";
+                        copyByteBuffer((byte*)token, (const byte*)indexFile, sizeof(indexFile));
+                        tokenIndex = sizeof(indexFile);
+                    }
+
+                    //FK: Route SPI to SD
+                    enableSlaveSD();
+                    const byte fileExist = SD.exists(token);
+                    enableSlaveEthernet();
+
+                    if (!fileExist)
+                    {
+                        writeToSerial("Error: File '");
+                        writeToSerial(token);
+                        writeToSerial("' does not exist.\n");
+                        
+                        sendResponseToClient(&client, 404);
+                        break;
+                    }
+                    
+                    sendResponseToClient(&client, 200);
+                    sendFileToHTMLClient(&client, token);
+
+                    break;
+                }
+            }
+            else if (isTextAscii(clientChar) || isDecimalAscii(clientChar) || clientChar == '.' || clientChar == '_' || clientChar == '-' || clientChar == '/')
+            {
+                if (tokenIndex == sizeof(token))
+                {
+                    sendResponseToClient(&client, 500);
+                    break;
+                }
+
+                token[tokenIndex++] = clientChar;
+            }
+            else
+            {
+                //ignore
+            }
+        }
     }
 
     client.stop();
-    //FK: TODO: Read GET and decide what page the user wants (?)
 }
 
 void handleCSGIClients()
@@ -1505,8 +1693,7 @@ void handleCSGIClients()
         }
     }
 
-    send200ResponseToClient(&client);
-
+    sendResponseToClient(&client, 200);
     client.stop();
 }
 
