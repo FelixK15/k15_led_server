@@ -301,6 +301,19 @@ typedef enum
     K15_LED_SERVER_CSGI_STATE_READ_TOKEN                    = 1,
 } kls_csgi_state;
 
+typedef struct 
+{
+    kls_html_request_parser_state   state;
+    kls_html_request_method         method;
+} kls_html_request_parser_context;
+
+typedef struct 
+{
+    uint16_t code;
+    const char* pFilePath;
+    uint8_t filePathLength;
+} kls_html_response;
+
 typedef struct
 {
     byte rgbPins[3];
@@ -813,7 +826,7 @@ byte isValidPath(const char* pPath, uint8_t pathLength)
 
     int8_t pathDepth = 0;
     uint8_t charIndex = 0u;
-
+    
     do 
     {
         char pathChar = pPath[charIndex];
@@ -1580,109 +1593,194 @@ void setup()
     digitalWrite(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN, HIGH);
 }
 
-void sendResponseToClient(EthernetClient* pClient, uint16_t code)
+const char* getHTMLResponseText(uint16_t htmlResponseCode)
 {
-    static char responseBuffer[] = "HTTP/1.1 XXX\r\n\r\n";
-    decimalToAsciiString(code, responseBuffer + 8u, 3u);
-    
-    pClient->write(responseBuffer, sizeof(responseBuffer));
+    //HTML CODES: 
+    //  200 - OK
+    //  301 - MOVED PERMANENTLY
+    //  302 - FOUND (how is this different from 200?) 
+    //  304 - NOT MODIFIED 
+    //  400 - BAD REQUEST 
+    //  401 - UNAUTHORIZED 
+    //  403 - FORBIDDEN 
+    //  404 - NOT FOUND 
+    //  500 - INTERNAL SERVER ERROR 
+    //  502 - BAD GATEWAY 
+
+    switch(htmlResponseCode)
+    {
+        case 200:
+            return "OK";
+        case 301:
+            return "MOVED PERMANENTLY";
+        case 302:
+            return "FOUND";
+        case 400:
+            return "BAD REQUEST";
+        case 401:
+            return "UNAUTHORIZED";
+        case 404:
+            return "NOT FOUND";
+        case 500:
+            return "INTERNAL SERVER ERROR";
+        case 502:
+            return "BAD GATEWAY";
+        default:
+            break;
+    }
+
+    return "UNKNOWN";
 }
 
-void sendFileToHTMLClient(EthernetClient* pClient, const char* pFile)
+const char* getHTMLContentType(const char* pFilePath, uint8_t filePathLength)
 {
-    enableSlaveSD();
+    char extension[4];
 
-    File fileHandle = SD.open(pFile, FILE_READ);
+    if (pFilePath[filePathLength - 3u] == '.')
+    {
+        extension[0] = pFilePath[filePathLength - 2u];
+        extension[1] = pFilePath[filePathLength - 1u];
+        extension[2] = 0;
+    }
+    else 
+    {
+        extension[0] = pFilePath[filePathLength - 3u];
+        extension[1] = pFilePath[filePathLength - 2u];
+        extension[2] = pFilePath[filePathLength - 1u];
+        extension[3] = 0;
+    }
+
+    if (stringIsEqual(extension, "htm"))
+    {
+        return "text/html";
+    }
+    else if (stringIsEqual(extension, "css"))
+    {
+        return "text/css";
+    }
+    else if (stringIsEqual(extension, "jpg"))
+    {
+        return "image/jpg";
+    }
+    else if (stringIsEqual(extension, "png"))
+    {
+        return "image/png";
+    }
+    else if (stringIsEqual(extension, "jsn"))
+    {
+        return "image/json";
+    }
+    
+    return "text/plain";
+}
+
+void sendFileToHTMLClient(EthernetClient* pClient, File* pFile)
+{
     byte buffer[2048u];
 
     int16_t bytesRead = 0u;
     do 
     {
         enableSlaveSD();
-        bytesRead = fileHandle.read(buffer, sizeof(buffer));
-
+        bytesRead = pFile->read(buffer, sizeof(buffer));
         enableSlaveEthernet();
         pClient->write(buffer, bytesRead);
     } while(bytesRead == sizeof(buffer));
-
-    enableSlaveSD();
-    fileHandle.close();
-    enableSlaveEthernet();
 }
 
-//HTML CODES: 
-//  200 - OK
-//  301 - MOVED PERMANENTLY
-//  302 - FOUND (how is this different from 200?) 
-//  304 - NOT MODIFIED 
-//  400 - BAD REQUEST 
-//  401 - UNAUTHORIZED 
-//  403 - FORBIDDEN 
-//  404 - NOT FOUND 
-//  500 - INTERNAL SERVER ERROR 
-//  502 - BAD GATEWAY 
-
-void handleHTMLClients()
+void sendHTMLResponseToClient(EthernetClient* pClient, kls_html_response* pResponse)
 {
-    EthernetClient client = htmlContext.pServer->available();
-
-    if (client)
+    char buffer[256u];
+    if ( pResponse->pFilePath != nullptr )
     {
-        kls_html_request_parser_state state = K15_LED_SERVER_HTML_STATE_READ_METHOD;
-        kls_html_request_method method      = K15_LED_SERVER_HTML_UNKNOWN_METHOD;
-    
-        char token[128];
-        uint8_t tokenIndex = 0u;
-        while (client.available())
+        enableSlaveSD();
+        File responseFile = SD.open(pResponse->pFilePath);
+        const uint32_t responseFileSize = responseFile.size();
+
+        const size_t bytesWritten = sprintf(buffer, "HTTP/1.1 %d %s\r\nConnection: close\r\nContent-Type: %s\r\nContent-Length: %u\r\n\r\n", 
+            pResponse->code, getHTMLResponseText(pResponse->code), getHTMLContentType(pResponse->pFilePath, pResponse->filePathLength), responseFileSize );
+
+        enableSlaveEthernet();
+        pClient->write(buffer, bytesWritten);
+
+        sendFileToHTMLClient(pClient, &responseFile);
+        enableSlaveSD();
+        responseFile.close();
+        enableSlaveEthernet();
+    }
+    else
+    {
+        const size_t bytesWritten = sprintf(buffer, "HTTP/1.1 %d %s\r\nConnection: close\r\n", pResponse->code, getHTMLResponseText(pResponse->code));
+        pClient->write(buffer, bytesWritten);   
+    }
+
+}
+
+byte evaluateHTMLRequestLine(EthernetClient* pClient, kls_html_request_parser_context* pParser, const char* pLine, int16_t lineLengthInBytes)
+{
+    char token[128];
+    uint8_t tokenIndex = 0;
+
+    for (int16_t byteIndex = 0; byteIndex < lineLengthInBytes; ++byteIndex)
+    {
+        char clientChar = pLine[byteIndex];
+        writeToSerial(clientChar);
+        token[tokenIndex++] = clientChar;
+
+        if (pParser->state == K15_LED_SERVER_HTML_STATE_READ_METHOD)
         {
-            char clientChar = client.read();
-
             if (clientChar == ' ' || clientChar == '\n')
-            { 
-                token[tokenIndex] = 0;
+            {
+                token[tokenIndex-1] = 0;
 
-                if (state == K15_LED_SERVER_HTML_STATE_READ_METHOD)
+                if (stringIsEqual(token, "GET"))
                 {
-                    if (stringIsEqual(token, "GET"))
-                    {
-                        method  = K15_LED_SERVER_HTML_GET_METHOD;
-                        state   = K15_LED_SERVER_HTML_STATE_READ_PATH;
-
-                        token[0] = 's';
-                        token[1] = 'd';
-                        tokenIndex = 2;
-                    }
-                    else if( stringIsEqual(token, "POST"))
-                    {
-                        method = K15_LED_SERVER_HTML_POST_METHOD;
-                    }
-                    else 
-                    {
-                        writeToSerial("Error: Unknown HTML method '");
-                        writeToSerial(token);
-                        writeToSerial("'.");
-
-                        sendResponseToClient(&client, 400);
-                        break;
-                    }
+                    pParser->method  = K15_LED_SERVER_HTML_GET_METHOD;
+                    pParser->state   = K15_LED_SERVER_HTML_STATE_READ_PATH;
                 }
-                else if (state == K15_LED_SERVER_HTML_STATE_READ_PATH)
+                else if(stringIsEqual(token, "POST"))
                 {
+                    pParser->method = K15_LED_SERVER_HTML_POST_METHOD;
+                    pParser->state  = K15_LED_SERVER_HTML_STATE_READ_PATH;
+                }
+                else 
+                {
+                    writeToSerial("Error: Unknown HTML method '");
+                    writeToSerial(token);
+                    writeToSerial("'.\n");
+
+                    kls_html_response response = { 400 };
+                    sendHTMLResponseToClient(pClient, &response);
+                    return 1;
+                }
+
+                tokenIndex = 0;
+            }
+        }
+        else if (pParser->state == K15_LED_SERVER_HTML_STATE_READ_PATH)
+        {
+            if (pParser->method == K15_LED_SERVER_HTML_GET_METHOD)
+            {
+                if (clientChar == ' ' || clientChar == '\n')
+                { 
+                    token[tokenIndex-1] = 0;
+
                     if (!isValidPath(token, tokenIndex))
                     {
                         writeToSerial("Error: Path '");
                         writeToSerial(token);
                         writeToSerial("' is invalid.\n");
 
-                        sendResponseToClient(&client, 401);
-                        break;
+                        kls_html_response response = { 401 };
+                        sendHTMLResponseToClient(pClient, &response);
+                        return 1;
                     }
 
                     if (stringIsEqual(token, "/"))
                     {
-                        const char indexFile[] = "/index.html\0";
+                        const char indexFile[] = "/index.htm\0";
                         copyByteBuffer((byte*)token, (const byte*)indexFile, sizeof(indexFile));
-                        tokenIndex = sizeof(indexFile);
+                        tokenIndex = sizeof(indexFile) - 2;
                     }
 
                     //FK: Route SPI to SD
@@ -1696,30 +1794,78 @@ void handleHTMLClients()
                         writeToSerial(token);
                         writeToSerial("' does not exist.\n");
                         
-                        sendResponseToClient(&client, 404);
-                        break;
+                        kls_html_response response = { 404 };
+                        sendHTMLResponseToClient(pClient, &response);
+                        return 1;
                     }
                     
-                    sendResponseToClient(&client, 200);
-                    sendFileToHTMLClient(&client, token);
+                    writeToSerial("Sending file '");
+                    writeToSerial(token);
+                    writeToSerial("' to client...\n");
 
-                    break;
+                    kls_html_response response;
+                    response.code           = 200;
+                    response.pFilePath      = token;
+                    response.filePathLength = tokenIndex;
+
+                    sendHTMLResponseToClient(pClient, &response);
+                    return 1;
                 }
             }
-            else if (isTextAscii(clientChar) || isDecimalAscii(clientChar) || clientChar == '.' || clientChar == '_' || clientChar == '-' || clientChar == '/')
-            {
-                if (tokenIndex == sizeof(token))
-                {
-                    sendResponseToClient(&client, 500);
-                    break;
-                }
+        }
+    }
 
-                token[tokenIndex++] = clientChar;
-            }
-            else
+    return 0;
+}
+
+void handleHTMLClients()
+{
+    EthernetClient client = htmlContext.pServer->available();
+
+    if (client)
+    {
+        kls_html_request_parser_context parser;
+        parser.state    = K15_LED_SERVER_HTML_STATE_READ_METHOD;
+        parser.method   = K15_LED_SERVER_HTML_UNKNOWN_METHOD;
+    
+        char lineBuffer[2048];
+        uint8_t tokenIndex = 0u;
+        byte requestHandled = 0;
+
+        while (client.connected())
+        {
+            if (requestHandled)
             {
-                //ignore
+                break;
             }
+
+            const int16_t bytesAvailable = (int16_t)client.available();
+            writeToSerial("bytesAvailable:");
+            writeToSerial(bytesAvailable);
+            writeToSerial("\n");
+
+            if (bytesAvailable == 0)
+            {
+                break;
+            }
+
+            if (bytesAvailable > (int16_t)sizeof(lineBuffer))
+            {
+                writeToSerial("Request is too large.\n");
+                
+                kls_html_response response = { 500 };
+                sendHTMLResponseToClient(&client, &response);
+                break;
+            }
+
+            client.read((uint8_t*)lineBuffer, bytesAvailable);
+            requestHandled = evaluateHTMLRequestLine(&client, &parser, lineBuffer, bytesAvailable);
+        }
+
+        if (requestHandled == 0)
+        {
+            kls_html_response response ={500};
+            sendHTMLResponseToClient(&client, &response);
         }
     }
 
@@ -1767,7 +1913,8 @@ void handleCSGIClients()
         }
     }
 
-    sendResponseToClient(&client, 200);
+    kls_html_response reponse = { 200 };
+    sendHTMLResponseToClient(&client, &reponse);
     client.stop();
 }
 
