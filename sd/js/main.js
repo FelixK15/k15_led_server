@@ -11,6 +11,22 @@ function onLoginClicked()
 
     request.onreadystatechange = function(e) {
         alert(request.readyState);
-    };
-    
+    };   
+}
+
+function loadConfigForm()
+{
+    var request = new XMLHttpRequest();
+    request.open('GET', 'config.ini', true);
+    request.send();
+
+    request.onreadystatechange = function(e) {
+        if( request.readyState == DONE )
+        {
+            var configContent = request.responseText;
+            var configElement = document.getElementById("k15_config");
+            
+            
+        } 
+    }
 }
