@@ -2,250 +2,78 @@
 #include <LiquidCrystal.h>
 #include <Ethernet.h>
 
-#ifndef K15_LED_SERVER_CONFIG_PATH
-#define K15_LED_SERVER_CONFIG_PATH "config.ini"
+#ifndef K15_CONFIG_PATH
+#define K15_CONFIG_PATH "config.ini"
 #endif
 
-#ifndef K15_LED_SERVER_CSGI_CONFIG_PATH
-#define K15_LED_SERVER_CSGI_CONFIG_PATH "k15_lsrv.cfg"
+#ifndef K15_CSGI_CONFIG_PATH
+#define K15_CSGI_CONFIG_PATH "k15_lsrv.cfg"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_USER
-#define K15_LED_SERVER_DEFAULT_USER "admin"
+#ifndef K15_DEFAULT_USER
+#define K15_DEFAULT_USER "admin"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_PASSWORD
-#define K15_LED_SERVER_DEFAULT_PASSWORD "1234"
+#ifndef K15_DEFAULT_PASSWORD
+#define K15_DEFAULT_PASSWORD "1234"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_MAC_ADDRESS
-#define K15_LED_SERVER_DEFAULT_MAC_ADDRESS "7E:D5:E6:4E:6D:8C"
+#ifndef K15_DEFAULT_MAC_ADDRESS
+#define K15_DEFAULT_MAC_ADDRESS "7E:D5:E6:4E:6D:8C"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_IP4_ADDRESS
-#define K15_LED_SERVER_DEFAULT_IP4_ADDRESS "192.168.1.78"
+#ifndef K15_DEFAULT_IP4_ADDRESS
+#define K15_DEFAULT_IP4_ADDRESS "192.168.1.78"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_DNS_ADDRESS
-#define K15_LED_SERVER_DEFAULT_DNS_ADDRESS "192.168.1.254"
+#ifndef K15_DEFAULT_DNS_ADDRESS
+#define K15_DEFAULT_DNS_ADDRESS "192.168.1.254"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_SUBNET_MASK
-#define K15_LED_SERVER_DEFAULT_SUBNET_MASK "255.255.255.0"
+#ifndef K15_DEFAULT_SUBNET_MASK
+#define K15_DEFAULT_SUBNET_MASK "255.255.255.0"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_GATEWAY
-#define K15_LED_SERVER_DEFAULT_GATEWAY "192.168.1.254"
+#ifndef K15_DEFAULT_GATEWAY
+#define K15_DEFAULT_GATEWAY "192.168.1.254"
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_SERIAL_OUT
-#define K15_LED_SERVER_DEFAULT_SERIAL_OUT 1
+#ifndef K15_DEFAULT_SERIAL_OUT
+#define K15_DEFAULT_SERIAL_OUT 1
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_USE_DHCP
-#define K15_LED_SERVER_DEFAULT_USE_DHCP 0
+#ifndef K15_DEFAULT_USE_DHCP
+#define K15_DEFAULT_USE_DHCP 0
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_HTML_SERVER_PORT
-#define K15_LED_SERVER_DEFAULT_HTML_SERVER_PORT 80
+#ifndef K15_DEFAULT_HTML_SERVER_PORT
+#define K15_DEFAULT_HTML_SERVER_PORT 80
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_CSGI_SERVER_PORT
-#define K15_LED_SERVER_DEFAULT_CSGI_SERVER_PORT 3500
-#endif
-
-////RGB PINS////
-#ifndef K15_LED_SERVER_DEFAULT_LED_R0_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R0_PIN 1
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G0_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G0_PIN 2
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B0_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B0_PIN 3
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_R1_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R1_PIN 4
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G1_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G1_PIN 5
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B1_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B1_PIN 6
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_R2_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R2_PIN 7
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G2_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G2_PIN 8
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B2_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B2_PIN 9
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_R3_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R3_PIN 10
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G3_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G3_PIN 11
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B3_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B3_PIN 12
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_R4_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R4_PIN 13
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G4_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G4_PIN 14
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B4_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B4_PIN 15
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_R5_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R5_PIN 16
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G5_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G5_PIN 17
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B5_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B5_PIN 18
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_R6_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R6_PIN 19
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G6_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G6_PIN 20
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B6_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B6_PIN 21
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_R7_PIN
-#define K15_LED_SERVER_DEFAULT_LED_R7_PIN 22
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_G7_PIN
-#define K15_LED_SERVER_DEFAULT_LED_G7_PIN 23
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LED_B7_PIN
-#define K15_LED_SERVER_DEFAULT_LED_B7_PIN 24
-#endif
-
-////LCD PINS
-#ifndef K15_LED_SERVER_DEFAULT_LCD_DB0_PIN 
-#define K15_LED_SERVER_DEFAULT_LCD_DB0_PIN 1
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_1 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_1 2
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_2 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_2 3
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_3 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_3 46
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_4 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_4 44
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_5 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_5 42
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_6 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_6 40
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_lcd_db_pin_7 
-#define K15_LED_SERVER_DEFAULT_lcd_db_pin_7 28
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_ENABLE_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_ENABLE_PIN 42
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_RS_PIN 
-#define K15_LED_SERVER_DEFAULT_LCD_RS_PIN 44
-#endif
-
-
-////LCD SWITCH PINS
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_0_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_0_PIN 49
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_1_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_1_PIN 47
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_2_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_2_PIN 45
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_3_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_3_PIN 43
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_4_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_4_PIN 41
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_5_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_5_PIN 39
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_6_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_6_PIN 37
-#endif
-
-#ifndef K15_LED_SERVER_DEFAULT_LCD_SWITCH_7_PIN
-#define K15_LED_SERVER_DEFAULT_LCD_SWITCH_7_PIN 35
+#ifndef K15_DEFAULT_CSGI_SERVER_PORT
+#define K15_DEFAULT_CSGI_SERVER_PORT 3500
 #endif
 
 ////STATUS PINS
-#ifndef K15_LED_SERVER_DEFAULT_SD_ERROR_PIN
-#define K15_LED_SERVER_DEFAULT_SD_ERROR_PIN 5
+#ifndef K15_SD_ERROR_PIN
+#define K15_SD_ERROR_PIN 5
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN
-#define K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN 6
+#ifndef K15_ETHERNET_ERROR_PIN
+#define K15_ETHERNET_ERROR_PIN 6
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_OK_STATUS_PIN
-#define K15_LED_SERVER_DEFAULT_OK_STATUS_PIN 7
+#ifndef K15_OK_STATUS_PIN
+#define K15_OK_STATUS_PIN 7
 #endif
 
 ////HARDWARE PINS
-#ifndef K15_LED_SERVER_DEFAULT_SD_PIN 
-#define K15_LED_SERVER_DEFAULT_SD_PIN 4
+#ifndef K15_SD_PIN 
+#define K15_SD_PIN 4
 #endif
 
-#ifndef K15_LED_SERVER_DEFAULT_ETHERNET_PIN
-#define K15_LED_SERVER_DEFAULT_ETHERNET_PIN 10
+#ifndef K15_ETHERNET_PIN
+#define K15_ETHERNET_PIN 10
 #endif
 
 #ifndef countof
@@ -253,74 +81,126 @@
 #endif
 
 #ifndef writeToSerial
-#define writeToSerial(x) {/*if((config.flagMask & K15_LED_SERVER_SERIAL_OUT) > 0u)*/ Serial.print(x);}
+#define writeToSerial(x) {/*if((config.flagMask & K15_SERIAL_OUT) > 0u)*/ Serial.print(x);}
 #endif
 
 typedef enum
 {
-    K15_LED_SERVER_INIT_SUCCESS         = 0x01,
-    K15_LED_SERVER_INIT_SD_ERROR        = 0x02,
-    K15_LED_SERVER_INIT_ETHERNET_ERROR  = 0x04,
-    K15_LED_SERVER_SERIAL_OUT           = 0x08,
-    K15_LED_SERVER_USE_DHCP             = 0x10,
-    K15_LED_SERVER_HAS_DNS              = 0x20,
-    K15_LED_SERVER_HAS_GATEWAY          = 0x40,
-    K15_LED_SERVER_HAS_SUBNET_MASK      = 0x80
+    K15_INIT_SUCCESS         = 0x01,
+    K15_INIT_SD_ERROR        = 0x02,
+    K15_INIT_ETHERNET_ERROR  = 0x04,
+    K15_SERIAL_OUT           = 0x08,
+    K15_USE_DHCP             = 0x10,
+    K15_HAS_DNS              = 0x20,
+    K15_HAS_GATEWAY          = 0x40,
+    K15_HAS_SUBNET_MASK      = 0x80
 } kls_flags;
 
 typedef enum
 {
-    K15_LED_SERVER_CONFIG_PARSER_STATE_READ_TOKEN   = 0,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_IP_ADDRESS   = 1,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_MAC_ADDRESS  = 2,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_FLAG         = 3,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_PIN          = 4,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_LED_RGB_PINS = 5,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_PORT         = 6,
-    K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT         = 7
+    K15_CONFIG_PARSER_STATE_READ_TOKEN   = 0,
+    K15_CONFIG_PARSER_STATE_IP_ADDRESS   = 1,
+    K15_CONFIG_PARSER_STATE_MAC_ADDRESS  = 2,
+    K15_CONFIG_PARSER_STATE_FLAG         = 3,
+    K15_CONFIG_PARSER_STATE_PORT         = 4,
+    K15_CONFIG_PARSER_STATE_TEXT         = 5
 } kls_config_parser_state;
 
 typedef enum
 {
-    K15_LED_SERVER_HTML_STATE_READ_METHOD           = 0,
-    K15_LED_SERVER_HTML_STATE_READ_PATH             = 1,
-    K15_LED_SERVER_HTML_STATE_READ_PARAMETERS       = 2,
-    K15_LED_SERVER_HTML_STATE_SKIP_TO_PARAMETERS	= 3,
-    K15_LED_SERVER_HTML_STATE_IGNORE_TOKENS         = 4
+    K15_HTML_STATE_READ_METHOD           = 0,
+    K15_HTML_STATE_READ_PATH             = 1,
+    K15_HTML_STATE_READ_PARAMETERS       = 2,
+    K15_HTML_STATE_SKIP_TO_PARAMETERS	= 3,
+    K15_HTML_STATE_IGNORE_TOKENS         = 4
 } kls_html_request_parser_state;
 
 typedef enum 
 {
-    K15_LED_SERVER_HTML_GET_METHOD      = 0,
-    K15_LED_SERVER_HTML_POST_METHOD     = 1,
-    K15_LED_SERVER_HTML_UNKNOWN_METHOD  = 2
+    K15_HTML_GET_METHOD      = 0,
+    K15_HTML_POST_METHOD     = 1,
+    K15_HTML_UNKNOWN_METHOD  = 2
 } kls_html_request_method;
 
 typedef enum 
 {
-    K15_LED_SERVER_HTML_RESPONSE_OK                     = 200,
-    K15_LED_SERVER_HTML_RESPONSE_MOVED_PERMANENTLY      = 301,
-    K15_LED_SERVER_HTML_RESPONSE_FOUND                  = 302,
-    K15_LED_SERVER_HTML_RESPONSE_NOT_MODIFIED	        = 304,
-    K15_LED_SERVER_HTML_RESPONSE_BAD_REQUEST            = 400,
-    K15_LED_SERVER_HTML_RESPONSE_FORBIDDEN	            = 401,
-    K15_LED_SERVER_HTML_RESPONSE_NOT_FOUND              = 404,
-    K15_LED_SERVER_HTML_RESPONSE_INTERNAL_SERVER_ERROR  = 500,
-    K15_LED_SERVER_HTML_RESPONSE_BAD_GATEWAY	        = 502
+    K15_HTML_RESPONSE_OK                     = 200,
+    K15_HTML_RESPONSE_MOVED_PERMANENTLY      = 301,
+    K15_HTML_RESPONSE_FOUND                  = 302,
+    K15_HTML_RESPONSE_NOT_MODIFIED	         = 304,
+    K15_HTML_RESPONSE_BAD_REQUEST            = 400,
+    K15_HTML_RESPONSE_FORBIDDEN	             = 401,
+    K15_HTML_RESPONSE_NOT_FOUND              = 404,
+    K15_HTML_RESPONSE_INTERNAL_SERVER_ERROR  = 500,
+    K15_HTML_RESPONSE_BAD_GATEWAY	         = 502
 } kls_html_response_code;
 
 typedef enum 
 {
-    K15_LED_SERVER_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN      = 0,
-    K15_LED_SERVER_CSGI_STATE_READ_TOKEN                    = 1,
+    K15_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN      = 0,
+    K15_CSGI_STATE_READ_TOKEN                    = 1,
 } kls_csgi_state;
+
+typedef enum 
+{
+    K15_LED_MODE_OFF             = 0,
+    K15_LED_MODE_CONSTANT_COLOR  = 1,
+    K15_LED_MODE_PULSE_COLOR     = 2,
+
+    K15_LED_MODE_COUNT
+} kls_led_mode;
+
+typedef enum
+{
+    K15_LED_IDENTIFIER_PLAYER_1	= 0,
+    K15_LED_IDENTIFIER_PLAYER_2,
+    K15_LED_IDENTIFIER_PLAYER_3,
+    K15_LED_IDENTIFIER_PLAYER_4,
+    K15_LED_IDENTIFIER_PLAYER_5,
+    K15_LED_IDENTIFIER_AMBIENCE_1,
+    K15_LED_IDENTIFIER_AMBIENCE_2,
+
+    K15_LED_IDENTIFIER_COUNT 
+} kls_led_identifier;
+
+typedef enum 
+{
+    K15_PLAYER_1_IDENTIFIER = 0x01,
+    K15_PLAYER_2_IDENTIFIER = 0x02,
+    K15_PLAYER_3_IDENTIFIER = 0x04,
+    K15_PLAYER_4_IDENTIFIER = 0x08,
+    K15_PLAYER_5_IDENTIFIER = 0x10,
+
+    K15_PLAYER_ALL_IDENTIFIER = K15_PLAYER_1_IDENTIFIER | K15_PLAYER_2_IDENTIFIER |
+        K15_PLAYER_3_IDENTIFIER | K15_PLAYER_4_IDENTIFIER | K15_PLAYER_5_IDENTIFIER, 
+
+    K15_PLAYER_IDENTIFIER_COUNT = 5
+} kls_player_identifier;
+
+typedef enum 
+{
+    K15_LED_FLAG_HAS_TARGET_COLOR   = 0x01
+} kls_led_flag;
 
 typedef struct 
 {
-    char            path[128];
+    LiquidCrystal displays[K15_LCD_IDENTIFIER_COUNT];
+} kls_lcd_context;
+
+typedef struct 
+{
+    unsigned long       steamId;
+    unsigned long       lastUpdateTimeInMs;
+    kls_led_identifier  ledIdentifier;
+    char                name[32];
+} kls_player_context;
+
+typedef struct 
+{
+    char                            path[128];
     kls_html_request_parser_state   state;
     kls_html_request_method         method;
-    uint8_t         pathLengthInBytes;
+    uint8_t                         pathLengthInBytes;
 } kls_html_request_parser_context;
 
 typedef struct
@@ -349,10 +229,8 @@ typedef struct
     kls_config_parser_state     state;
     uint16_t*                   pPort;
     char*                       pText;
-    byte*                       pRGBPins;
     byte*                       pIPAddress;
     byte*                       pMacAddress;
-    byte*                       pPin;
     byte*                       pFlagMask;
     byte                        flag;
 } kls_config_parser_context;
@@ -367,6 +245,35 @@ typedef struct
 {
     EthernetServer* pServer;
 } kls_html_context;
+
+//FK: Maybe go for RGB565 and store color in uint16_t?
+typedef struct 
+{
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+} kls_rgb_color;
+
+typedef struct 
+{
+    uint8_t         flagMask;
+    kls_led_mode    mode;
+
+    kls_rgb_color   baseColor;
+    kls_rgb_color   color;
+    kls_rgb_color   targetColor;
+    kls_rgb_color	nextTargetColor;
+
+    unsigned long   fadeTimeMarkerInMs;
+    unsigned long   totalFadeTimeInMs;
+} kls_led;
+
+typedef struct 
+{
+    kls_led leds[K15_LED_IDENTIFIER_COUNT];
+    unsigned long lastUpdateTimeInMs;
+    unsigned long defaultFadeTimeInMs;
+} kls_led_context;
 
 typedef struct 
 {
@@ -388,6 +295,8 @@ typedef struct
 kls_config config;
 kls_csgi_context csgiContext;
 kls_html_context htmlContext;
+kls_led_context ledContext;
+kls_player_context playerContexts[K15_PLAYER_IDENTIFIER_COUNT];
 
 void copyByteBuffer(byte* pBufferTo, const byte* pBufferFrom, uint8_t length)
 {
@@ -395,6 +304,16 @@ void copyByteBuffer(byte* pBufferTo, const byte* pBufferFrom, uint8_t length)
     {
         pBufferTo[i] = pBufferFrom[i];
     }
+}
+
+void copyString(char* pTo, const char* pFrom)
+{
+    while (*pFrom)
+    {
+        *pTo++ = *pFrom++;
+    }
+
+    *pTo = 0;
 }
 
 byte asciiDecimalCharToByte(char asciiCharacter)
@@ -478,7 +397,7 @@ byte hexStringToByte(byte* hex, uint8_t length)
   return (asciiHexCharToByte(hex[0]) << 4) | asciiHexCharToByte(hex[1]);
 }
 
-uint16_t decimalStringToUint16( const char* pToken, uint8_t length )
+uint32_t decimalStringToUint32( const char* pToken, uint8_t length )
 {
     if (length == 0)
     {
@@ -491,37 +410,71 @@ uint16_t decimalStringToUint16( const char* pToken, uint8_t length )
     }
 
     uint8_t i = length;
-    uint16_t decimal = 0;
-    uint16_t multiplier = 1;
+    uint32_t decimal = 0;
+    uint32_t multiplier = 1;
 
     do 
     {
-        decimal += (uint16_t)asciiDecimalCharToByte(pToken[--i]) * multiplier;
+        decimal += (uint32_t)asciiDecimalCharToByte(pToken[--i]) * multiplier;
             multiplier *= 10;
     } while(i > 0);
 
     return decimal;
 }
 
-void tokeniseString(char** pTokenBuffers, uint8_t tokenBufferSize, const char* pString, char token)
+uint8_t getStringLength(const char* pString)
+{
+    if (pString == NULL)
+    {
+        return 0;
+    }
+
+    int length = 0u;
+    while (*pString++)
+    {
+        ++length;
+    }
+
+    return length;
+}
+
+uint8_t tokeniseString(char** pTokenBuffers, uint8_t maxTokenCount, uint8_t tokenBufferSize, const char* pString, char token)
 {
     char* pTokenBuffer = *pTokenBuffers;
     uint8_t tokenIndex = 0;
-
+    uint8_t tokenCount = 0;
     while (*pString)
     {
-        if (*pString == token)
+        if (tokenCount == maxTokenCount)
+        {
+            break;
+        }
+        
+        if (*pString == token || tokenIndex == (tokenBufferSize - 1))
         {
             pTokenBuffer[tokenIndex] = 0;
             pTokenBuffer = *++pTokenBuffers;
             tokenIndex = 0;
+            ++tokenCount;
             continue;
         }
 
-        pTokenBuffer[tokenIndex] = *pString;
+        pTokenBuffer[tokenIndex++] = *pString++;
     }
 
     pTokenBuffer[tokenIndex] = 0;
+
+    return tokenCount;
+}
+
+byte isValidLedMode(uint8_t ledMode)
+{
+    return ledMode < K15_LED_MODE_COUNT;
+}
+
+byte isValidLedIndex(uint8_t ledIndex)
+{
+    return ledIndex < K15_LED_IDENTIFIER_COUNT;
 }
 
 byte isValidIpAddressToken( const char* pToken )
@@ -602,6 +555,15 @@ byte isValidPortToken( const char* pToken )
     return 1;
 }
 
+kls_rgb_color uint32ToColor(uint32_t value)
+{
+    kls_rgb_color color;
+    color.r = (value >> 16) & 0xFF;
+    color.g = (value >>  8) & 0xFF;
+    color.b = (value >>  0) & 0xFF;
+    return color;
+}
+
 byte tokenToIpAddress( byte* pOutIpAddress, const char* pToken )
 {
     uint8_t decimalIndex = 0u;
@@ -611,7 +573,7 @@ byte tokenToIpAddress( byte* pOutIpAddress, const char* pToken )
   {
     if( *pToken == '.' || *pToken == 0 ) 
     {
-      *pOutIpAddress = (byte)decimalStringToUint16( decimal, decimalIndex );
+      *pOutIpAddress = (byte)decimalStringToUint32( decimal, decimalIndex );
       pOutIpAddress++;
 
       decimalIndex = 0;
@@ -681,95 +643,6 @@ byte tokenToBool(byte* pFlagMask, uint8_t bitMask, const char* pToken)
     return 0;
 }
 
-byte tokenToPin(uint8_t* pOutPin, const char* pToken, uint8_t tokenLength)
-{
-    const uint8_t pin = (uint8_t)decimalStringToUint16(pToken, tokenLength);
-
-    if (pin == PIN_SPI_SCK)
-    {
-        writeToSerial("Pin '");
-        writeToSerial(pin);
-        writeToSerial("' is reserved for SPI_SCK.\n");
-
-        return 0;
-    }
-    else if (pin == PIN_SPI_MISO)
-    {
-        writeToSerial("Pin '");
-        writeToSerial(pin);
-        writeToSerial("' is reserved for SPI_MISO.\n");
-
-        return 0;
-    }
-    else if (pin == PIN_SPI_MOSI)
-    {
-        writeToSerial("Pin '");
-        writeToSerial(pin);
-        writeToSerial("' is reserved for SPI_MOSI.\n");
-
-        return 0;
-    }
-    else if (pin == PIN_SPI_SS)
-    {
-        writeToSerial("Pin '");
-        writeToSerial(pin);
-        writeToSerial("' is reserved for SPI_SS.\n");
-
-        return 0;
-    }
-
-    *pOutPin = pin;
-    return 1;
-}
-
-byte tokenToRGBPins(uint8_t* pOutPins, const char* pToken)
-{
-    if (*pToken++ != '[')
-    {
-        return 0;
-    }
-
-    uint8_t pinCount = 0;
-
-    while(*pToken)
-    {
-        //FK: eat symbols
-        while (*pToken == ' ' || *pToken == '\t' || *pToken == ',' || *pToken == ']')
-        {
-            ++pToken;
-
-            if (*pToken == 0)
-            {
-                return 1;
-            }
-        }
-
-        uint8_t pinTokenLength = 0;
-        const char* pPinToken = pToken;
-
-        while (*pToken != ',' && *pToken != ']')
-        {
-            if (*pToken == 0)
-            {
-                return 0;
-            }
-
-            if (!isDecimalAscii(*pToken++))
-            {
-                continue;
-            }
-
-            pinTokenLength++;
-        }
-
-        ++pinCount;
-        *pOutPins++ = (byte)decimalStringToUint16(pPinToken, pinTokenLength);
-        pinTokenLength = 0;
-    }
-    
-    return pinCount == 3;
-}
-
 byte tokenToPort( uint16_t* pOutPort, const char* pToken, uint8_t tokenLength)
 {
     if (!isValidPortToken(pToken))
@@ -778,7 +651,7 @@ byte tokenToPort( uint16_t* pOutPort, const char* pToken, uint8_t tokenLength)
         return 0;
     }
 
-    *pOutPort = decimalStringToUint16(pToken, tokenLength);
+    *pOutPort = decimalStringToUint32(pToken, tokenLength);
     
     return (*pOutPort >= 80);
 }
@@ -895,25 +768,25 @@ void decimalToAsciiString(uint16_t value, char* pString, uint8_t stringLength)
 
 void enableSlaveSD()
 {
-    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN, HIGH);
-    digitalWrite(K15_LED_SERVER_DEFAULT_SD_PIN,             LOW);
+    digitalWrite(K15_ETHERNET_ERROR_PIN, HIGH);
+    digitalWrite(K15_SD_PIN,             LOW);
 }
 
 void enableSlaveEthernet()
 {
-    digitalWrite(K15_LED_SERVER_DEFAULT_SD_PIN,         HIGH);
-    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,   LOW);
+    digitalWrite(K15_SD_PIN,         HIGH);
+    digitalWrite(K15_ETHERNET_PIN,   LOW);
 }
 
 void writeCSGIConfig()
 {
-    SD.remove(K15_LED_SERVER_CSGI_CONFIG_PATH);
-    File configFile = SD.open(K15_LED_SERVER_CSGI_CONFIG_PATH, O_CREAT | O_WRITE | O_TRUNC);
+    SD.remove(K15_CSGI_CONFIG_PATH);
+    File configFile = SD.open(K15_CSGI_CONFIG_PATH, O_CREAT | O_WRITE | O_TRUNC);
 
     if( !configFile )
     {
         writeToSerial(F("Error: Could not create csgi config file '"));
-        writeToSerial(K15_LED_SERVER_CSGI_CONFIG_PATH);
+        writeToSerial(K15_CSGI_CONFIG_PATH);
         writeToSerial("'\n");
         return;
     }
@@ -945,12 +818,12 @@ void writeCSGIConfig()
 
 void writeDefaultConfigIni()
 {
-    File configFile = SD.open(K15_LED_SERVER_CONFIG_PATH, O_CREAT | O_WRITE | O_TRUNC);
+    File configFile = SD.open(K15_CONFIG_PATH, O_CREAT | O_WRITE | O_TRUNC);
 
     if( !configFile )
     {
         writeToSerial(F("Error: Could not create config file '"));
-        writeToSerial(K15_LED_SERVER_CONFIG_PATH);
+        writeToSerial(K15_CONFIG_PATH);
         writeToSerial("'\n");
         return;
     }
@@ -958,197 +831,54 @@ void writeDefaultConfigIni()
     configFile.print(F("//login data\n"));
     
     configFile.print(F("user="));
-    configFile.print(K15_LED_SERVER_DEFAULT_USER);
+    configFile.print(K15_DEFAULT_USER);
     configFile.print(F("\n"));
 
     configFile.print(F("password="));
-    configFile.print(K15_LED_SERVER_DEFAULT_PASSWORD);
+    configFile.print(K15_DEFAULT_PASSWORD);
     configFile.print(F("\n\n"));
     
     configFile.print(F("//network\n"));
 
     configFile.print(F("mac_address="));
-    configFile.print(K15_LED_SERVER_DEFAULT_MAC_ADDRESS);
+    configFile.print(K15_DEFAULT_MAC_ADDRESS);
     configFile.print(F("\n"));
 
     configFile.print(F("use_dhcp="));
-    configFile.print(K15_LED_SERVER_DEFAULT_USE_DHCP);
+    configFile.print(K15_DEFAULT_USE_DHCP);
     configFile.print(F("\n\n"));
 
     configFile.print(F("//Only used when 'use_dhcp=0'\n"));
 
     configFile.print(F("ip4_address="));
-    configFile.print(K15_LED_SERVER_DEFAULT_IP4_ADDRESS);
+    configFile.print(K15_DEFAULT_IP4_ADDRESS);
     configFile.print(F("\n\n"));
 
     configFile.print(F("//optional\n"));
     configFile.print(F("dns_address="));
-    configFile.print(K15_LED_SERVER_DEFAULT_DNS_ADDRESS);
+    configFile.print(K15_DEFAULT_DNS_ADDRESS);
     configFile.print(F("\n"));
 
     configFile.print(F("subnet_mask="));
-    configFile.print(K15_LED_SERVER_DEFAULT_SUBNET_MASK);
+    configFile.print(K15_DEFAULT_SUBNET_MASK);
     configFile.print(F("\n"));
     
     configFile.print(F("gateway="));
-    configFile.print(K15_LED_SERVER_DEFAULT_GATEWAY);
+    configFile.print(K15_DEFAULT_GATEWAY);
     configFile.print(F("\n\n"));
 
     configFile.print(F("//server settings\n"));
-
     configFile.print(F("htmlserver_port="));
-    configFile.print(K15_LED_SERVER_DEFAULT_HTML_SERVER_PORT);
+    configFile.print(K15_DEFAULT_HTML_SERVER_PORT);
     configFile.print(F("\n"));
 
     configFile.print(F("csgiserver_port="));
-    configFile.print(K15_LED_SERVER_DEFAULT_CSGI_SERVER_PORT);
+    configFile.print(K15_DEFAULT_CSGI_SERVER_PORT);
     configFile.print(F("\n\n"));
 
     configFile.print(F("serial_out="));
-    configFile.print(K15_LED_SERVER_DEFAULT_SERIAL_OUT);
+    configFile.print(K15_DEFAULT_SERIAL_OUT);
     configFile.print(F("\n"));
-
-    configFile.print(F("//lcd settings\n"));
-
-    configFile.print(F("lcd_db_pin_0="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_DB0_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_db_pin_1="));
-    configFile.print(K15_LED_SERVER_DEFAULT_lcd_db_pin_1);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_db_pin_2="));
-    configFile.print(K15_LED_SERVER_DEFAULT_lcd_db_pin_2);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_db_pin_3="));
-    configFile.print(K15_LED_SERVER_DEFAULT_lcd_db_pin_3);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_db_pin_4="));
-    configFile.print(K15_LED_SERVER_DEFAULT_lcd_db_pin_4);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_db_pin_5="));
-    configFile.print(K15_LED_SERVER_DEFAULT_lcd_db_pin_5);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_db_pin_6="));
-    configFile.print(K15_LED_SERVER_DEFAULT_lcd_db_pin_6);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_db_pin_7="));
-    configFile.print(K15_LED_SERVER_DEFAULT_lcd_db_pin_7);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_rs_pin="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_RS_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_enable_pin="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_ENABLE_PIN);
-    configFile.print(F("\n\n"));
-
-    configFile.print(F("//lcd switch settings\n"));
-
-    configFile.print(F("lcd_switch_pin_0="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_0_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_switch_pin_1="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_1_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_switch_pin_2="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_2_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_switch_pin_3="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_3_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_switch_pin_4="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_4_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_switch_pin_5="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_5_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_switch_pin_6="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_6_PIN);
-    configFile.print(F("\n"));
-
-    configFile.print(F("lcd_switch_pin_7="));
-    configFile.print(K15_LED_SERVER_DEFAULT_LCD_SWITCH_7_PIN);
-    configFile.print(F("\n\n"));
-
-    configFile.print(F("//led rgb strip settings\n"));
-  
-    configFile.print(F("led_strip_rgb_pins_0=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R0_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G0_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B0_PIN);
-    configFile.print(F("]\n"));
-
-    configFile.print(F("led_strip_rgb_pins_1=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R1_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G1_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B1_PIN);
-    configFile.print(F("]\n"));
-
-    configFile.print(F("led_strip_rgb_pins_2=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R2_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G2_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B2_PIN);
-    configFile.print(F("]\n"));
-
-    configFile.print(F("led_strip_rgb_pins_3=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R3_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G3_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B3_PIN);
-    configFile.print(F("]\n"));
-
-    configFile.print(F("led_strip_rgb_pins_4=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R4_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G4_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B4_PIN);
-    configFile.print(F("]\n"));
-
-    configFile.print(F("led_strip_rgb_pins_5=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R5_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G5_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B5_PIN);
-    configFile.print(F("]\n"));
-
-    configFile.print(F("led_strip_rgb_pins_6=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R6_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G6_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B6_PIN);
-    configFile.print(F("]\n"));
-
-    configFile.print(F("led_strip_rgb_pins_7=["));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_R7_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_G7_PIN);
-    configFile.print(F(", "));
-    configFile.print(K15_LED_SERVER_DEFAULT_LED_B7_PIN);
-    configFile.print(F("]\n"));
 
     configFile.close();
 }
@@ -1170,13 +900,13 @@ void seekUntilNewline(File* pFile)
 byte parseConfigFile(kls_config* pConfig)
 {
     kls_config_parser_context parserContext;
-    parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_READ_TOKEN;
+    parserContext.state = K15_CONFIG_PARSER_STATE_READ_TOKEN;
 
     byte result = 1;
     uint8_t tokenIndex = 0u;
     char token[32];
     
-    File configFile = SD.open(K15_LED_SERVER_CONFIG_PATH, O_READ);
+    File configFile = SD.open(K15_CONFIG_PATH, O_READ);
     while (configFile.peek() != -1)
     {
         byte tokenChar = configFile.read();
@@ -1189,105 +919,62 @@ byte parseConfigFile(kls_config* pConfig)
 
             if (stringIsEqual(token, "user"))
             {
-                parserContext.state             = K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT;
+                parserContext.state             = K15_CONFIG_PARSER_STATE_TEXT;
                 parserContext.pText             = config.username;
                 parserContext.textBufferSize    = sizeof(config.username);
             }
             else if (stringIsEqual(token, "password"))
             {
-                parserContext.state             = K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT;
+                parserContext.state             = K15_CONFIG_PARSER_STATE_TEXT;
                 parserContext.pText             = config.password;
                 parserContext.textBufferSize    = sizeof(config.password);
             }
             else if (stringIsEqual(token, "mac_address"))
             {
-                parserContext.state         = K15_LED_SERVER_CONFIG_PARSER_STATE_MAC_ADDRESS;
+                parserContext.state         = K15_CONFIG_PARSER_STATE_MAC_ADDRESS;
                 parserContext.pMacAddress   = config.macAddress;
             }
             else if (stringIsEqual(token, "ip4_address"))
             {
-                parserContext.state         = K15_LED_SERVER_CONFIG_PARSER_STATE_IP_ADDRESS;
+                parserContext.state         = K15_CONFIG_PARSER_STATE_IP_ADDRESS;
                 parserContext.pIPAddress    = config.ipAddress;
             }
             else if (stringIsEqual(token, "dns_address"))
             {
-                parserContext.state         = K15_LED_SERVER_CONFIG_PARSER_STATE_IP_ADDRESS;
+                parserContext.state         = K15_CONFIG_PARSER_STATE_IP_ADDRESS;
                 parserContext.pIPAddress    = config.dnsAddress;
             }
             else if (stringIsEqual(token, "subnet_mask"))
             {
-                parserContext.state         = K15_LED_SERVER_CONFIG_PARSER_STATE_IP_ADDRESS;
+                parserContext.state         = K15_CONFIG_PARSER_STATE_IP_ADDRESS;
                 parserContext.pIPAddress    = config.subnetMask;
             }
             else if (stringIsEqual(token, "gateway"))
             {
-                parserContext.state         = K15_LED_SERVER_CONFIG_PARSER_STATE_IP_ADDRESS;
+                parserContext.state         = K15_CONFIG_PARSER_STATE_IP_ADDRESS;
                 parserContext.pIPAddress    = config.gateway;
             }
             else if (stringIsEqual(token, "htmlserver_port"))
             {
-                parserContext.state     = K15_LED_SERVER_CONFIG_PARSER_STATE_PORT;
+                parserContext.state     = K15_CONFIG_PARSER_STATE_PORT;
                 parserContext.pPort     = &config.htmlServerPort;
             }
             else if (stringIsEqual(token, "csgiserver_port"))
             {
-                parserContext.state     = K15_LED_SERVER_CONFIG_PARSER_STATE_PORT;
+                parserContext.state     = K15_CONFIG_PARSER_STATE_PORT;
                 parserContext.pPort     = &config.csgiServerPort;
             }
             else if (stringIsEqual(token, "serial_out"))
             {
-                parserContext.state     = K15_LED_SERVER_CONFIG_PARSER_STATE_FLAG;
+                parserContext.state     = K15_CONFIG_PARSER_STATE_FLAG;
                 parserContext.pFlagMask = &config.flagMask;
-                parserContext.flag      = K15_LED_SERVER_SERIAL_OUT;
+                parserContext.flag      = K15_SERIAL_OUT;
             }
             else if (stringIsEqual(token, "use_dhcp"))
             {
-                parserContext.state     = K15_LED_SERVER_CONFIG_PARSER_STATE_FLAG;
+                parserContext.state     = K15_CONFIG_PARSER_STATE_FLAG;
                 parserContext.pFlagMask = &config.flagMask;
-                parserContext.flag      = K15_LED_SERVER_USE_DHCP;
-            }
-            else if (stringIsEqual(token, "lcd_enable_pin"))
-            {
-                parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_PIN;
-                parserContext.pPin  = &config.lcdPins.enablePin;
-            }
-            else if (stringIsEqual(token, "lcd_rs_pin"))
-            {
-                parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_PIN;
-                parserContext.pPin  = &config.lcdPins.rsPin;
-            }
-            else if (stringContains(token, "lcd_db_pin_"))
-            {
-                if (!isDecimalAscii(token[11]) && token[12] != 0)
-                {
-                    goto unknownToken;
-                }
-
-                const uint8_t pinIndex = asciiDecimalCharToByte(token[11]);
-                parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_PIN;
-                parserContext.pPin  = &config.lcdPins.dbPins[pinIndex];
-            }
-            else if (stringContains(token, "lcd_switch_pin_"))
-            {
-                if (!isDecimalAscii(token[15]) && token[16] != 0)
-                {
-                    goto unknownToken;
-                }
-
-                const uint8_t lcdIndex = asciiDecimalCharToByte(token[15]);
-                parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_PIN;
-                parserContext.pPin  = &config.lcds[lcdIndex].switchPin;
-            }
-            else if (stringContains(token, "led_strip_rgb_pins_"))
-            {
-                if (!isDecimalAscii(token[19]) && token[20] != 0)
-                {
-                    goto unknownToken;
-                }
-
-                const uint8_t ledIndex  = asciiDecimalCharToByte(token[19]);
-                parserContext.state     = K15_LED_SERVER_CONFIG_PARSER_STATE_LED_RGB_PINS;
-                parserContext.pRGBPins  = config.ledStrips[ledIndex].rgbPins;
+                parserContext.flag      = K15_USE_DHCP;
             }
             else 
             {
@@ -1296,7 +983,7 @@ byte parseConfigFile(kls_config* pConfig)
                 writeToSerial(token);
                 writeToSerial(F("'.\n"));
 
-                parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_READ_TOKEN;
+                parserContext.state = K15_CONFIG_PARSER_STATE_READ_TOKEN;
             }
             
             tokenIndex = 0;
@@ -1309,7 +996,7 @@ byte parseConfigFile(kls_config* pConfig)
         else if (tokenChar == '\n')
         {
             token[tokenIndex] = 0;
-            if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_IP_ADDRESS)
+            if (parserContext.state == K15_CONFIG_PARSER_STATE_IP_ADDRESS)
             {
                 if (!tokenToIpAddress(parserContext.pIPAddress, token))
                 {
@@ -1322,7 +1009,7 @@ byte parseConfigFile(kls_config* pConfig)
                     goto cleanUp;
                 }
             }
-            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_MAC_ADDRESS)
+            else if (parserContext.state == K15_CONFIG_PARSER_STATE_MAC_ADDRESS)
             {
                 if (!tokenToMacAddress(parserContext.pMacAddress, token))
                 {
@@ -1335,7 +1022,7 @@ byte parseConfigFile(kls_config* pConfig)
                     goto cleanUp;
                 }
             }
-            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_FLAG)
+            else if (parserContext.state == K15_CONFIG_PARSER_STATE_FLAG)
             {
                 if (!tokenToBool(parserContext.pFlagMask, parserContext.flag, token))
                 {
@@ -1348,33 +1035,7 @@ byte parseConfigFile(kls_config* pConfig)
                     goto cleanUp;
                 }
             }
-            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_PIN)
-            {
-                if (!tokenToPin(parserContext.pPin, token, tokenIndex))
-                {
-                    writeToSerial(F("Error: token '"));
-                    writeToSerial(parserContext.keyToken);
-                    writeToSerial(F("' has invalid value '"));
-                    writeToSerial(token);
-                    writeToSerial(F("' (only valid values are valid pin identifier).\n"));
-                    result = 0;
-                    goto cleanUp;
-                }
-            }
-            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_LED_RGB_PINS)
-            {
-                if (!tokenToRGBPins(parserContext.pRGBPins, token))
-                {
-                    writeToSerial(F("Error: token '"));
-                    writeToSerial(parserContext.keyToken);
-                    writeToSerial(F("' has invalid value '"));
-                    writeToSerial(token);
-                    writeToSerial(F("' (only valid values are valid pin identifier in a tuple like '[1, 3, 4]).\n"));
-                    result = 0;
-                    goto cleanUp;
-                }
-            }
-            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_PORT)
+            else if (parserContext.state == K15_CONFIG_PARSER_STATE_PORT)
             {
                 if (!tokenToPort(parserContext.pPort, token, tokenIndex))
                 {
@@ -1387,7 +1048,7 @@ byte parseConfigFile(kls_config* pConfig)
                     goto cleanUp;
                 }
             }
-            else if (parserContext.state == K15_LED_SERVER_CONFIG_PARSER_STATE_TEXT)
+            else if (parserContext.state == K15_CONFIG_PARSER_STATE_TEXT)
             {
                 if (tokenIndex > parserContext.textBufferSize)
                 {
@@ -1404,7 +1065,7 @@ byte parseConfigFile(kls_config* pConfig)
             }
 
             tokenIndex = 0;
-            parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_READ_TOKEN;
+            parserContext.state = K15_CONFIG_PARSER_STATE_READ_TOKEN;
         }
         else
         {
@@ -1431,7 +1092,7 @@ byte parseConfigFile(kls_config* pConfig)
                 {
                     seekUntilNewline(&configFile);
                     tokenIndex = 0;
-                    parserContext.state = K15_LED_SERVER_CONFIG_PARSER_STATE_READ_TOKEN;
+                    parserContext.state = K15_CONFIG_PARSER_STATE_READ_TOKEN;
                 }
             }
         }
@@ -1444,6 +1105,17 @@ byte parseConfigFile(kls_config* pConfig)
     return result;
 }
 
+void setLEDColor(kls_led_identifier ledId, kls_rgb_color color)
+{
+    ledContext.leds[ledId].nextTargetColor = color;
+    ledContext.leds[ledId].flagMask |= K15_LED_FLAG_HAS_TARGET_COLOR;
+}
+
+void setLEDMode(kls_led_identifier ledId, kls_led_mode mode)
+{
+    ledContext.leds[ledId].mode = mode;
+}
+
 void setup()
 {
     Serial.begin( 9600 );
@@ -1453,35 +1125,35 @@ void setup()
     pinMode(PIN_SPI_SS,          OUTPUT);
     pinMode(PIN_SPI_MISO,        INPUT);
 
-    pinMode(K15_LED_SERVER_DEFAULT_ETHERNET_PIN,    OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_SD_PIN,          OUTPUT);
+    pinMode(K15_ETHERNET_PIN,    OUTPUT);
+    pinMode(K15_SD_PIN,          OUTPUT);
 
-    pinMode(K15_LED_SERVER_DEFAULT_SD_ERROR_PIN,        OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN,  OUTPUT);
-    pinMode(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN,       OUTPUT);
+    pinMode(K15_SD_ERROR_PIN,        OUTPUT);
+    pinMode(K15_ETHERNET_ERROR_PIN,  OUTPUT);
+    pinMode(K15_OK_STATUS_PIN,       OUTPUT);
 
     digitalWrite(PIN_SPI_SCK,      HIGH);
     digitalWrite(PIN_SPI_MOSI,     HIGH);
     digitalWrite(PIN_SPI_SS,       HIGH);
     digitalWrite(PIN_SPI_MISO,     HIGH);
 
-    digitalWrite(K15_LED_SERVER_DEFAULT_SD_ERROR_PIN,       LOW);
-    digitalWrite(K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN, LOW);
-    digitalWrite(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN,      LOW);
+    digitalWrite(K15_SD_ERROR_PIN,       LOW);
+    digitalWrite(K15_ETHERNET_ERROR_PIN, LOW);
+    digitalWrite(K15_OK_STATUS_PIN,      LOW);
 
     enableSlaveSD();
 
     if( !SD.begin() )
     {
         writeToSerial(F("Could not initialize SD library\n"));
-        config.flagMask |= K15_LED_SERVER_INIT_SD_ERROR;
+        config.flagMask |= K15_INIT_SD_ERROR;
         return;
     }
 
     //DEBUG
-    SD.remove( K15_LED_SERVER_CONFIG_PATH );
+    SD.remove( K15_CONFIG_PATH );
 
-    if ( !SD.exists( K15_LED_SERVER_CONFIG_PATH ) )
+    if ( !SD.exists( K15_CONFIG_PATH ) )
     {
         writeToSerial(F("Creating default config...\n"));
         writeDefaultConfigIni();
@@ -1489,7 +1161,7 @@ void setup()
 
     if ( !parseConfigFile( &config ) )
     {
-        config.flagMask |= K15_LED_SERVER_INIT_SD_ERROR;
+        config.flagMask |= K15_INIT_SD_ERROR;
         writeToSerial(F("Could not parse config file.\n"));
         return;
     }
@@ -1530,13 +1202,13 @@ void setup()
    
 
     byte hasAddress = 0;
-    if ( ( config.flagMask & K15_LED_SERVER_USE_DHCP ) > 0u )
+    if ( ( config.flagMask & K15_USE_DHCP ) > 0u )
     {
         writeToSerial(F("Waiting for DHCP...\n"));
         if ( !Ethernet.begin( config.macAddress ) )
         {
             writeToSerial(F("Error: Could not initialize ethernet with DHCP enabled...Trying via IP.\n"));
-            config.flagMask &= ~K15_LED_SERVER_USE_DHCP;
+            config.flagMask &= ~K15_USE_DHCP;
         }
         else
         {
@@ -1548,7 +1220,7 @@ void setup()
     {
          IPAddress ipAddress( config.ipAddress[0], config.ipAddress[1], config.ipAddress[2], config.ipAddress[3] );
 
-        if ( ( config.flagMask & K15_LED_SERVER_HAS_DNS ) == 0u )
+        if ( ( config.flagMask & K15_HAS_DNS ) == 0u )
         {
             Ethernet.begin(config.macAddress, ipAddress);
         }
@@ -1556,7 +1228,7 @@ void setup()
         {
             IPAddress dnsAddress( config.dnsAddress[0], config.dnsAddress[1], config.dnsAddress[2], config.dnsAddress[3] );
     
-            if ( ( config.flagMask & K15_LED_SERVER_HAS_GATEWAY ) == 0u )
+            if ( ( config.flagMask & K15_HAS_GATEWAY ) == 0u )
             {
                 Ethernet.begin(config.macAddress, ipAddress, dnsAddress);
             }
@@ -1564,7 +1236,7 @@ void setup()
             {
                 IPAddress gatewayAddress( config.gateway[0], config.gateway[1], config.gateway[2], config.gateway[3] );
     
-                if ( ( config.flagMask & K15_LED_SERVER_HAS_SUBNET_MASK ) == 0 )
+                if ( ( config.flagMask & K15_HAS_SUBNET_MASK ) == 0 )
                 {
                     Ethernet.begin(config.macAddress, ipAddress, dnsAddress, gatewayAddress);
                 }
@@ -1587,7 +1259,7 @@ void setup()
 
     if (Ethernet.hardwareStatus() == EthernetNoHardware)
     {
-        config.flagMask |= K15_LED_SERVER_INIT_ETHERNET_ERROR;
+        config.flagMask |= K15_INIT_ETHERNET_ERROR;
         writeToSerial(F("Warning: No network hardware has been found.\n"));
         return;
     }
@@ -1596,13 +1268,13 @@ void setup()
   
     if (linkStatus != Unknown && linkStatus != LinkON)
     {
-        config.flagMask |= K15_LED_SERVER_INIT_ETHERNET_ERROR;
+        config.flagMask |= K15_INIT_ETHERNET_ERROR;
         writeToSerial(F("Warning: No network cable is plugged in.\n"));
         return;
     }
     
     csgiContext.pServer = new EthernetServer(config.csgiServerPort); 
-    csgiContext.state   = K15_LED_SERVER_CSGI_STATE_READ_TOKEN;
+    csgiContext.state   = K15_CSGI_STATE_READ_TOKEN;
 
     htmlContext.pServer = new EthernetServer(config.htmlServerPort); 
  
@@ -1618,9 +1290,9 @@ void setup()
     writeToSerial(Ethernet.localIP());
     writeToSerial("\n");
 
-    config.flagMask |= K15_LED_SERVER_INIT_SUCCESS;
+    config.flagMask |= K15_INIT_SUCCESS;
 
-    digitalWrite(K15_LED_SERVER_DEFAULT_OK_STATUS_PIN, HIGH);
+    digitalWrite(K15_OK_STATUS_PIN, HIGH);
 }
 
 const char* getHTMLResponseText(uint16_t htmlResponseCode)
@@ -1732,16 +1404,31 @@ void sendHTMLResponseToClient(EthernetClient* pClient, kls_html_response_code re
     pClient->write(buffer, bytesWritten);   
 }
 
+
+void sendHTMLResponseToClient(EthernetClient* pClient, kls_html_response_code responseCode, const char* pResponseFile)
+{
+    const uint8_t fileNameLength = getStringLength(pResponseFile);
+
+    if (fileNameLength != 0)
+    {
+        sendHTMLResponseToClient(pClient, responseCode, pResponseFile, fileNameLength); 
+    }
+    else
+    {
+        sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_NOT_FOUND);
+    }
+}
+
 byte parseHTMLRequestMethod(kls_html_request_method* pOutMethod, const char* pRequestMethodString)
 {
     if (stringIsEqual(pRequestMethodString, "GET"))
     {
-        *pOutMethod = K15_LED_SERVER_HTML_GET_METHOD;
+        *pOutMethod = K15_HTML_GET_METHOD;
         return 1;
     }
     else if(stringIsEqual(pRequestMethodString, "POST"))
     {
-        *pOutMethod = K15_LED_SERVER_HTML_POST_METHOD;
+        *pOutMethod = K15_HTML_POST_METHOD;
         return 1;
     }
     
@@ -1757,25 +1444,95 @@ void handleHTMLPostRequest(EthernetClient* pClient, const char* pPath, uint8_t p
     if (stringIsEqual(pPath, "/login"))
     {
         char params[2][64];
-        const uint8_t tokenCount = tokeniseString(params, 2, pParameters, '&');
+        const uint8_t tokenCount = tokeniseString((char**)params, sizeof(params[0]), sizeof(params), pParameters, '&');
 
-        if (tokenCount < 2u)
+        if (tokenCount != 2u)
         {
-            sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_BAD_REQUEST);
+            sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_BAD_REQUEST);
             return;
         }
 
         if (!stringIsEqual(params[0], config.username) || !stringIsEqual(params[1], config.password))
         {
-            sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_FORBIDDEN);
+            sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_FORBIDDEN);
             return;
         }
 
-        sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_OK);
+        sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_OK, "/admin.htm");
+    }
+    else if (stringIsEqual(pPath, "/led_mode"))
+    {
+        char params[2][64];
+        const uint8_t tokenCount = tokeniseString((char**)params, sizeof(params[0]), sizeof(params), pParameters, '&');
+
+        if (tokenCount != 2u)
+        {
+            writeToSerial("Invalid parameter string in POST /led_mode: ");
+            writeToSerial(pParameters);
+            writeToSerial("\n");
+            sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_BAD_REQUEST);
+            return;
+        }
+
+        const uint16_t ledIndex = decimalStringToUint32(params[0], getStringLength(params[0]));
+
+        if (!isValidLedIndex(ledIndex))
+        {
+            writeToSerial("Invalid LED Index in POST /led_mode parsing: ");
+            writeToSerial(ledIndex);
+            writeToSerial("\n");
+            sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_BAD_REQUEST);
+            return;
+        }
+
+        const uint16_t ledMode = decimalStringToUint32(params[1], getStringLength(params[1]));
+
+        if (!isValidLedMode(ledMode))
+        {
+            writeToSerial("Invalid LED mode in POST /led_mode parsing: ");
+            writeToSerial(ledMode);
+            writeToSerial("\n");
+            sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_BAD_REQUEST);
+            return;
+        }
+
+        setLEDMode((kls_led_identifier)ledIndex, (kls_led_mode)ledMode);
+        sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_OK);
+    }
+    else if (stringIsEqual(pPath, "/led_color"))
+    {
+        char params[2][64];
+        const uint8_t tokenCount = tokeniseString((char**)params, sizeof(params[0]), sizeof(params), pParameters, '&');
+
+        if (tokenCount != 2u)
+        {
+            writeToSerial("Invalid parameter string in POST /led_color: ");
+            writeToSerial(pParameters);
+            writeToSerial("\n");
+            sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_BAD_REQUEST);
+            return;
+        }
+
+        const uint32_t ledIndex = decimalStringToUint32(params[0], getStringLength(params[0]));
+
+        if (!isValidLedIndex(ledIndex))
+        {
+            writeToSerial("Invalid LED Index in POST /led_color parsing: ");
+            writeToSerial(ledIndex);
+            writeToSerial("\n");
+            sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_BAD_REQUEST);
+            return;
+        }
+
+        const uint32_t ledColorDecimal = decimalStringToUint32(params[1], getStringLength(params[1]));
+        const kls_rgb_color ledColor = uint32ToColor(ledColorDecimal);
+
+        setLEDColor((kls_led_identifier)ledIndex, ledColor);
+        sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_OK);
     }
     else
     {
-        sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_NOT_FOUND);
+        sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_NOT_FOUND);
     }
 }
 
@@ -1787,7 +1544,7 @@ void handleHTMLGetRequest(EthernetClient* pClient, const char* pPath, uint8_t pa
         writeToSerial(pPath);
         writeToSerial("' is invalid.\n");
 
-        sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_FORBIDDEN);
+        sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_FORBIDDEN);
         return;
     }
 
@@ -1809,7 +1566,7 @@ void handleHTMLGetRequest(EthernetClient* pClient, const char* pPath, uint8_t pa
         writeToSerial(pPath);
         writeToSerial("' does not exist.\n");
         
-        sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_NOT_FOUND);
+        sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_NOT_FOUND);
         return;
     }
     
@@ -1817,7 +1574,7 @@ void handleHTMLGetRequest(EthernetClient* pClient, const char* pPath, uint8_t pa
     writeToSerial(pPath);
     writeToSerial("' to client...\n");
 
-    sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_OK, pPath, pathLengthInBytes);
+    sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_OK, pPath, pathLengthInBytes);
 }
 
 byte parseHTMLRequestLine(EthernetClient* pClient, kls_html_request_parser_context* pParser, const char* pLine, int16_t lineLengthInBytes)
@@ -1831,22 +1588,22 @@ byte parseHTMLRequestLine(EthernetClient* pClient, kls_html_request_parser_conte
         writeToSerial(clientChar);
         token[tokenIndex++] = clientChar;
 
-        if (pParser->state == K15_LED_SERVER_HTML_STATE_READ_METHOD)
+        if (pParser->state == K15_HTML_STATE_READ_METHOD)
         {
             if (clientChar == ' ' || clientChar == '\n')
             {
                 token[tokenIndex-1] = 0;
                 if (!parseHTMLRequestMethod(&pParser->method, token))
                 {
-                    sendHTMLResponseToClient(pClient, K15_LED_SERVER_HTML_RESPONSE_BAD_REQUEST);     
+                    sendHTMLResponseToClient(pClient, K15_HTML_RESPONSE_BAD_REQUEST);     
                     return 1;
                 }
 
-                pParser->state = K15_LED_SERVER_HTML_STATE_READ_PATH;
+                pParser->state = K15_HTML_STATE_READ_PATH;
                 tokenIndex = 0;
             }
         }
-        else if (pParser->state == K15_LED_SERVER_HTML_STATE_READ_PATH)
+        else if (pParser->state == K15_HTML_STATE_READ_PATH)
         {
             if (clientChar == ' ' || clientChar == '\n')
             {
@@ -1854,19 +1611,19 @@ byte parseHTMLRequestLine(EthernetClient* pClient, kls_html_request_parser_conte
                 copyByteBuffer((byte*)pParser->path, (byte*)token, tokenIndex);
                 pParser->pathLengthInBytes = tokenIndex;
 
-                if (pParser->method == K15_LED_SERVER_HTML_GET_METHOD)
+                if (pParser->method == K15_HTML_GET_METHOD)
                 {
                     handleHTMLGetRequest(pClient, pParser->path, pParser->pathLengthInBytes);
                     return 1;
                 }
-                else if (pParser->method == K15_LED_SERVER_HTML_POST_METHOD)
+                else if (pParser->method == K15_HTML_POST_METHOD)
                 {
-                    pParser->state = K15_LED_SERVER_HTML_STATE_SKIP_TO_PARAMETERS;
+                    pParser->state = K15_HTML_STATE_SKIP_TO_PARAMETERS;
                     tokenIndex = 0;
                 }
             }
         }
-        else if (pParser->state == K15_LED_SERVER_HTML_STATE_SKIP_TO_PARAMETERS)
+        else if (pParser->state == K15_HTML_STATE_SKIP_TO_PARAMETERS)
         {
             if (tokenIndex == 1 && token[0] == '\r')
             {
@@ -1874,12 +1631,12 @@ byte parseHTMLRequestLine(EthernetClient* pClient, kls_html_request_parser_conte
             }
             else if (tokenIndex == 2 && token[0] == '\r' && token[1] == '\n')
             {
-                pParser->state == K15_LED_SERVER_HTML_STATE_READ_PARAMETERS;
+                pParser->state == K15_HTML_STATE_READ_PARAMETERS;
             }
 
             tokenIndex = 0;
         }
-        else if (pParser->state == K15_LED_SERVER_HTML_STATE_READ_PARAMETERS)
+        else if (pParser->state == K15_HTML_STATE_READ_PARAMETERS)
         {
             if (clientChar == ' ' || clientChar == '\n')
             {
@@ -1899,8 +1656,8 @@ void handleHTMLClients()
     if (client)
     {
         kls_html_request_parser_context parser;
-        parser.state    = K15_LED_SERVER_HTML_STATE_READ_METHOD;
-        parser.method   = K15_LED_SERVER_HTML_UNKNOWN_METHOD;
+        parser.state    = K15_HTML_STATE_READ_METHOD;
+        parser.method   = K15_HTML_UNKNOWN_METHOD;
     
         char lineBuffer[2048];
         uint8_t tokenIndex = 0u;
@@ -1926,7 +1683,7 @@ void handleHTMLClients()
             if (bytesAvailable > (int16_t)sizeof(lineBuffer))
             {
                 writeToSerial("Request is too large.\n");
-                sendHTMLResponseToClient(&client, K15_LED_SERVER_HTML_RESPONSE_INTERNAL_SERVER_ERROR);
+                sendHTMLResponseToClient(&client, K15_HTML_RESPONSE_INTERNAL_SERVER_ERROR);
                 break;
             }
 
@@ -1936,11 +1693,74 @@ void handleHTMLClients()
 
         if (requestHandled == 0)
         {
-            sendHTMLResponseToClient(&client, K15_LED_SERVER_HTML_RESPONSE_INTERNAL_SERVER_ERROR);
+            sendHTMLResponseToClient(&client, K15_HTML_RESPONSE_INTERNAL_SERVER_ERROR);
         }
     }
 
     client.stop();
+}
+
+void bombExplode()
+{
+}
+
+void bombPlanted()
+{
+}
+
+void bombDropped(kls_player_identifier playerIdentifier)
+{
+    const char* pPlayerName = playerContexts[playerIdentifier].name;
+
+    broadMessage(K15_PLAYER_1_IDENTIFIER)
+}
+
+void bombPickedUp()
+{
+}
+
+void playerConnected(const char* pPlayerName, unsigned long steamId)
+{
+    const unsigned long nowInMs = millis();
+    const uint8_t playerNameLength = getStringLength(pPlayerName);
+
+    for (uint8_t playerIndex = 0u; playerIndex < sizeof(playerContexts); ++playerIndex)
+    {
+        if (playerContexts[playerIndex].steamId == 0u)
+        {
+            playerContexts[playerIndex].steamId = steamId;
+            copyString(playerContexts[playerIndex].name, pPlayerName);
+            return;
+        }
+    }
+
+    uint8_t oldestPlayerIndex           = (~0);
+    unsigned long oldestUpdateTimeInMs  = 0u;
+    for (uint8_t playerIndex = 0u; playerIndex < sizeof(playerContexts); ++playerIndex)
+    {
+        if (playerContexts[playerIndex].lastUpdateTimeInMs > oldestUpdateTimeInMs)
+        {
+            oldestUpdateTimeInMs = playerContexts[playerIndex].lastUpdateTimeInMs;
+            oldestPlayerIndex    = playerIndex;
+        }
+    }
+
+    if (oldestPlayerIndex < sizeof(playerContexts))
+    {
+        playerContexts[oldestPlayerIndex].steamId = steamId;
+        copyString(playerContexts[oldestPlayerIndex, pPlayerName);
+    }
+
+    return;
+}
+
+void playerHealthChanged(kls_led_identifier identifier, uint8_t health)
+{
+    static const kls_rgb_color fullHealth   = {0u, 255u, 0u};
+    static const kls_rgb_color noHealth	    = {255u, 0u, 0u};
+
+    kls_rgb_color ledColor = lerpColorValues(&noHealth, &fullHealth, health);
+    setLEDColor(identifier, ledColor); 
 }
 
 void handleCSGIClients()
@@ -1960,7 +1780,7 @@ void handleCSGIClients()
         {
             char tokenChar = client.read();
 
-            if (csgiContext.state == K15_LED_SERVER_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN)
+            if (csgiContext.state == K15_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN)
             {
                 //FK: Eat whitespaces
                 if (tokenChar != '"')
@@ -1968,14 +1788,14 @@ void handleCSGIClients()
                     continue;
                 }
 
-                csgiContext.state = K15_LED_SERVER_CSGI_STATE_READ_TOKEN;
+                csgiContext.state = K15_CSGI_STATE_READ_TOKEN;
             }
-            else if (csgiContext.state == K15_LED_SERVER_CSGI_STATE_READ_TOKEN)
+            else if (csgiContext.state == K15_CSGI_STATE_READ_TOKEN)
             {
                 if (tokenChar == '"' || tokenChar == ',' || tokenChar == '}')
                 {
                     token[tokenIndex] = 0;
-                    csgiContext.state = K15_LED_SERVER_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN;
+                    csgiContext.state = K15_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN;
                     continue;
                 }
 
@@ -1984,14 +1804,14 @@ void handleCSGIClients()
         }
     }
 
-    sendHTMLResponseToClient(&client, K15_LED_SERVER_HTML_RESPONSE_OK);
+    sendHTMLResponseToClient(&client, K15_HTML_RESPONSE_OK);
     client.stop();
 }
 
 byte handleError()
 {
-    const byte hasError = ( ( config.flagMask & K15_LED_SERVER_INIT_ETHERNET_ERROR ) > 0u ) ||
-      ( ( config.flagMask & K15_LED_SERVER_INIT_SD_ERROR ) > 0u );
+    const byte hasError = ( ( config.flagMask & K15_INIT_ETHERNET_ERROR ) > 0u ) ||
+      ( ( config.flagMask & K15_INIT_SD_ERROR ) > 0u );
 
     if( hasError != 1 )
     {
@@ -2019,13 +1839,13 @@ byte handleError()
         byte statusPin = 0;
         errorPulseTimerInMicroSeconds = 0;
 
-        if( ( config.flagMask & K15_LED_SERVER_INIT_SD_ERROR ) > 0u )
+        if( ( config.flagMask & K15_INIT_SD_ERROR ) > 0u )
         {
-            statusPin = K15_LED_SERVER_DEFAULT_SD_ERROR_PIN;
+            statusPin = K15_SD_ERROR_PIN;
         }
-        else if( ( config.flagMask & K15_LED_SERVER_INIT_ETHERNET_ERROR ) > 0u )
+        else if( ( config.flagMask & K15_INIT_ETHERNET_ERROR ) > 0u )
         {
-            statusPin = K15_LED_SERVER_DEFAULT_ETHERNET_ERROR_PIN;
+            statusPin = K15_ETHERNET_ERROR_PIN;
         }
 
         pinStatus = !pinStatus;
@@ -2035,6 +1855,54 @@ byte handleError()
     lastPulseMicroSeconds = currentMicroSeconds;
 
     return 1;
+}
+
+kls_rgb_color lerpColorValues(const kls_rgb_color* pFrom, const kls_rgb_color* pTo, uint8_t lerpFactor)
+{
+    //FK: lerpFactor [0,100]
+
+    kls_rgb_color color;
+
+    color.r = uint8_t(((uint16_t)pFrom->r * (100 - lerpFactor) + (uint16_t)pTo->r * lerpFactor) / 100);
+    color.g = uint8_t(((uint16_t)pFrom->g * (100 - lerpFactor) + (uint16_t)pTo->g * lerpFactor) / 100);
+    color.b = uint8_t(((uint16_t)pFrom->b * (100 - lerpFactor) + (uint16_t)pTo->b * lerpFactor) / 100);
+
+    return color;
+}
+
+void updateLEDColor()
+{
+    const unsigned long nowInMs = millis();
+    const unsigned long thenInMs = ledContext.lastUpdateTimeInMs; 
+    const unsigned long deltaInMs = thenInMs - nowInMs;
+
+    for(uint8_t ledIndex = 0u; ledIndex < K15_LED_IDENTIFIER_COUNT; ++ledIndex)
+    {
+        kls_led* pLED = ledContext.leds + ledIndex;
+        if (pLED->fadeTimeMarkerInMs > 0u)
+        {
+            if (pLED->fadeTimeMarkerInMs < deltaInMs)
+            {
+                pLED->fadeTimeMarkerInMs = 0u;
+                pLED->color = pLED->targetColor;
+                continue;
+            }
+
+            const uint8_t lerp = (pLED->fadeTimeMarkerInMs * 100) / pLED->totalFadeTimeInMs;
+            pLED->color = lerpColorValues(&pLED->baseColor, &pLED->targetColor, lerp);
+            pLED->fadeTimeMarkerInMs -= deltaInMs;
+        }
+        else if ((pLED->flagMask & K15_LED_FLAG_HAS_TARGET_COLOR) > 0u)
+        {
+            pLED->baseColor = pLED->color;
+            pLED->targetColor = pLED->nextTargetColor;
+            pLED->fadeTimeMarkerInMs = ledContext.defaultFadeTimeInMs;
+            pLED->totalFadeTimeInMs = ledContext.defaultFadeTimeInMs;
+            pLED->flagMask &= ~K15_LED_FLAG_HAS_TARGET_COLOR;
+        }
+    }
+
+    ledContext.lastUpdateTimeInMs = nowInMs;
 }
 
 void loop()
@@ -2048,6 +1916,7 @@ void loop()
 
     handleHTMLClients();
     handleCSGIClients();
+    updateLEDColor();
 
     const unsigned long endMicros = millis();
     const unsigned long deltaMillis = endMicros - startMicros;

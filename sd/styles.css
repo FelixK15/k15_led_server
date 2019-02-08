@@ -3,14 +3,14 @@
     background: #272E6F;
 }
 
-.loginform {
+.center_div {
     margin: auto;
     width: 50%;
     padding-top: 2%;
     text-align: center;
 }
 
-.logintable {
+.center_table {
     align-self: center;
     align-items: center;
     align-content: center;
