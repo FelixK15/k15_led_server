@@ -1,0 +1,2466 @@
+POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 259
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074555
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"activity": "menu"
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 259
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074631
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"activity": "menu"
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1165
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074667
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "unconnected",
+		"activity": "playing",
+		"state": {
+			"health": 0,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 0
+		},
+		"weapons": {
+
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"name": "LuckyBlade",
+			"activity": "menu"
+		}
+	},
+	"added": {
+		"player": {
+			"state": true,
+			"weapons": true,
+			"match_stats": true
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1047
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074671
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"activity": "playing",
+		"state": {
+			"health": 0,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 0
+		},
+		"weapons": {
+
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"name": "unconnected"
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1567
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074676
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "over"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"round": {
+			"phase": "live"
+		},
+		"player": {
+			"state": {
+				"health": 0,
+				"equip_value": 0
+			}
+		}
+	},
+	"added": {
+		"player": {
+			"weapons": {
+				"weapon_0": true,
+				"weapon_1": true
+			},
+			"team": true
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1711
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074676
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"round": {
+			"phase": "over"
+		},
+		"player": {
+			"weapons": {
+				"weapon_1": {
+					"state": "active"
+				}
+			}
+		}
+	},
+	"added": {
+		"player": {
+			"weapons": {
+				"weapon_2": true
+			},
+			"observer_slot": true
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1623
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074677
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_1": {
+					"state": "holstered"
+				},
+				"weapon_2": {
+					"state": "active"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1623
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074681
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_1": {
+					"state": "active"
+				},
+				"weapon_2": {
+					"state": "holstered"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1623
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074682
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_1": {
+					"state": "holstered"
+				},
+				"weapon_2": {
+					"state": "active"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1623
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074684
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "active"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_0": {
+					"state": "holstered"
+				},
+				"weapon_1": {
+					"state": "active"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1623
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074685
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_0": {
+					"state": "active"
+				},
+				"weapon_1": {
+					"state": "holstered"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1623
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074687
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "active"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_0": {
+					"state": "holstered"
+				},
+				"weapon_1": {
+					"state": "active"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1522
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074691
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "active"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"round": {
+			"phase": "freezetime"
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1617
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074692
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_0": {
+					"state": "active"
+				},
+				"weapon_2": {
+					"state": "holstered"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1572
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074692
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_1": {
+					"state": "holstered"
+				},
+				"weapon_2": {
+					"name": "weapon_c4",
+					"paintkit": "default",
+					"type": "C4",
+					"state": "active"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1535
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074694
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"added": {
+		"player": {
+			"weapons": {
+				"weapon_2": true
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1617
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074694
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "active"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_0": {
+					"state": "holstered"
+				},
+				"weapon_1": {
+					"state": "active"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1617
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074703
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 800,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 0
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_0": {
+					"state": "active"
+				},
+				"weapon_2": {
+					"state": "holstered"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1651
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074712
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 1100,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 2
+		}
+	},
+	"previously": {
+		"player": {
+			"state": {
+				"money": 800
+			},
+			"weapons": {
+				"weapon_1": {
+					"state": "holstered"
+				},
+				"weapon_2": {
+					"name": "weapon_c4",
+					"paintkit": "default",
+					"type": "C4",
+					"state": "active"
+				}
+			},
+			"match_stats": {
+				"score": 0
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1412
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074713
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live",
+		"bomb": "planted"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 1100,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 2
+		}
+	},
+	"added": {
+		"round": {
+			"bomb": true
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1468
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074717
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live",
+		"bomb": "planted"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 1100,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 19,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 2
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_1": {
+					"ammo_clip": 20
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1468
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074717
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live",
+		"bomb": "planted"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 1100,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 18,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 2
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_1": {
+					"ammo_clip": 19
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1521
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074727
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 0,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "live",
+		"bomb": "planted"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 1100,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "active"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 18,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 0,
+			"score": 2
+		}
+	},
+	"previously": {
+		"player": {
+			"weapons": {
+				"weapon_0": {
+					"state": "holstered"
+				},
+				"weapon_1": {
+					"state": "active"
+				}
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1675
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074753
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 1,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "over",
+		"win_team": "T",
+		"bomb": "exploded"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 89,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 4600,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "active"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 18,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 1,
+			"score": 4
+		}
+	},
+	"previously": {
+		"map": {
+			"round": 0
+		},
+		"round": {
+			"phase": "live",
+			"bomb": "planted"
+		},
+		"player": {
+			"state": {
+				"health": 100,
+				"money": 1100
+			},
+			"match_stats": {
+				"mvps": 0,
+				"score": 2
+			}
+		}
+	},
+	"added": {
+		"round": {
+			"win_team": true
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1453
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074754
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 1,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 1,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "over",
+		"win_team": "T",
+		"bomb": "exploded"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 89,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 4600,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "active"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 18,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 1,
+			"score": 4
+		}
+	},
+	"previously": {
+		"map": {
+			"team_t": {
+				"score": 0
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1812
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074760
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 1,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 1,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "playing",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 4600,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 1,
+			"score": 4
+		}
+	},
+	"previously": {
+		"round": {
+			"phase": "over",
+			"win_team": "T",
+			"bomb": "exploded"
+		},
+		"player": {
+			"state": {
+				"health": 89
+			},
+			"weapons": {
+				"weapon_0": {
+					"state": "active"
+				},
+				"weapon_1": {
+					"ammo_clip": 18
+				}
+			}
+		}
+	},
+	"added": {
+		"player": {
+			"weapons": {
+				"weapon_2": true
+			}
+		}
+	}
+}POST / HTTP/1.1
+User-Agent: Valve/Steam HTTP Client 1.0 (730)
+Content-Type: application/json
+Host: 127.0.0.1:3500
+Accept: text/html,*/*;q=0.9
+Accept-Encoding: gzip,identity,*;q=0
+Accept-Charset: ISO-8859-1,utf-8,*;q=0.7
+Content-Length: 1532
+
+{
+	"provider": {
+		"name": "Counter-Strike: Global Offensive",
+		"appid": 730,
+		"version": 13678,
+		"steamid": "76561197979780950",
+		"timestamp": 1550074761
+	},
+	"map": {
+		"mode": "competitive",
+		"name": "de_train",
+		"phase": "live",
+		"round": 1,
+		"team_ct": {
+			"score": 0,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"team_t": {
+			"score": 1,
+			"timeouts_remaining": 1,
+			"matches_won_this_series": 0
+		},
+		"num_matches_to_win_series": 0,
+		"current_spectators": 0,
+		"souvenirs_total": 0
+	},
+	"round": {
+		"phase": "freezetime"
+	},
+	"player": {
+		"steamid": "76561197979780950",
+		"name": "LuckyBlade",
+		"observer_slot": 1,
+		"team": "T",
+		"activity": "textinput",
+		"state": {
+			"health": 100,
+			"armor": 0,
+			"helmet": false,
+			"flashed": 0,
+			"smoked": 0,
+			"burning": 0,
+			"money": 4600,
+			"round_kills": 0,
+			"round_killhs": 0,
+			"equip_value": 200
+		},
+		"weapons": {
+			"weapon_0": {
+				"name": "weapon_knife_t",
+				"paintkit": "default",
+				"type": "Knife",
+				"state": "holstered"
+			},
+			"weapon_1": {
+				"name": "weapon_glock",
+				"paintkit": "default",
+				"type": "Pistol",
+				"ammo_clip": 20,
+				"ammo_clip_max": 20,
+				"ammo_reserve": 120,
+				"state": "holstered"
+			},
+			"weapon_2": {
+				"name": "weapon_c4",
+				"paintkit": "default",
+				"type": "C4",
+				"state": "active"
+			}
+		},
+		"match_stats": {
+			"kills": 0,
+			"assists": 0,
+			"deaths": 0,
+			"mvps": 1,
+			"score": 4
+		}
+	},
+	"previously": {
+		"player": {
+			"activity": "playing"
+		}
+	}
+}

@@ -1,6 +1,13 @@
-#include <SD.h>
-#include <LiquidCrystal.h>
-#include <Ethernet.h>
+#if defined (_WIN32)
+#   include "../sim/win32_Arduino.h"
+#   include "../sim/win32_SD.h"
+#   include "../sim/win32_LiquidCrystal.h"
+#   include "../sim/win32_Ethernet.h"
+#elif defined(__AVR_ATmega2560__)
+#   include <SD.h>
+#   include <LiquidCrystal.h>
+#   include <Ethernet.h>
+#endif
 
 #ifndef K15_CONFIG_PATH
 #define K15_CONFIG_PATH "config.ini"
@@ -81,7 +88,7 @@
 #endif
 
 #ifndef writeToSerial
-#define writeToSerial(x) {/*if((config.flagMask & K15_SERIAL_OUT) > 0u)*/ Serial.print(x);}
+#define writeToSerial(x) {if((config.flagMask & K15_SERIAL_OUT) > 0u) Serial.print(x);}
 #endif
 
 typedef enum
@@ -182,10 +189,10 @@ typedef enum
     K15_LED_FLAG_HAS_TARGET_COLOR   = 0x01
 } kls_led_flag;
 
-typedef struct 
-{
-    LiquidCrystal displays[K15_LCD_IDENTIFIER_COUNT];
-} kls_lcd_context;
+//typedef struct 
+//{
+//    LiquidCrystal displays[K15_LCD_IDENTIFIER_COUNT];
+//} kls_lcd_context;
 
 typedef struct 
 {
@@ -237,8 +244,14 @@ typedef struct
 
 typedef struct 
 {
+    uint16_t appId;
+    uint16_t version;
+} kls_csgi_parameter;
+
+typedef struct 
+{
     EthernetServer* pServer;
-    kls_csgi_state  state;
+    kls_csgi_state  parserState;
 } kls_csgi_context;
 
 typedef struct 
@@ -766,6 +779,19 @@ void decimalToAsciiString(uint16_t value, char* pString, uint8_t stringLength)
     }
 }
 
+kls_rgb_color lerpColorValues(const kls_rgb_color* pFrom, const kls_rgb_color* pTo, uint8_t lerpFactor)
+{
+    //FK: lerpFactor [0,100]
+
+    kls_rgb_color color;
+
+    color.r = uint8_t(((uint16_t)pFrom->r * (100 - lerpFactor) + (uint16_t)pTo->r * lerpFactor) / 100);
+    color.g = uint8_t(((uint16_t)pFrom->g * (100 - lerpFactor) + (uint16_t)pTo->g * lerpFactor) / 100);
+    color.b = uint8_t(((uint16_t)pFrom->b * (100 - lerpFactor) + (uint16_t)pTo->b * lerpFactor) / 100);
+
+    return color;
+}
+
 void enableSlaveSD()
 {
     digitalWrite(K15_ETHERNET_ERROR_PIN, HIGH);
@@ -978,7 +1004,6 @@ byte parseConfigFile(kls_config* pConfig)
             }
             else 
             {
-                unknownToken:
                 writeToSerial(F("Error: Unknown config token '"));
                 writeToSerial(token);
                 writeToSerial(F("'.\n"));
@@ -1287,8 +1312,8 @@ void setup()
     htmlContext.pServer->begin();
     csgiContext.pServer->begin();
 
-    writeToSerial(Ethernet.localIP());
-    writeToSerial("\n");
+    //writeToSerial(Ethernet.localIP());
+    //writeToSerial("\n");
 
     config.flagMask |= K15_INIT_SUCCESS;
 
@@ -1474,7 +1499,7 @@ void handleHTMLPostRequest(EthernetClient* pClient, const char* pPath, uint8_t p
             return;
         }
 
-        const uint16_t ledIndex = decimalStringToUint32(params[0], getStringLength(params[0]));
+        const uint8_t ledIndex = (uint8_t)decimalStringToUint32(params[0], getStringLength(params[0]));
 
         if (!isValidLedIndex(ledIndex))
         {
@@ -1485,7 +1510,7 @@ void handleHTMLPostRequest(EthernetClient* pClient, const char* pPath, uint8_t p
             return;
         }
 
-        const uint16_t ledMode = decimalStringToUint32(params[1], getStringLength(params[1]));
+        const uint8_t ledMode = (uint8_t)decimalStringToUint32(params[1], getStringLength(params[1]));
 
         if (!isValidLedMode(ledMode))
         {
@@ -1631,7 +1656,7 @@ byte parseHTMLRequestLine(EthernetClient* pClient, kls_html_request_parser_conte
             }
             else if (tokenIndex == 2 && token[0] == '\r' && token[1] == '\n')
             {
-                pParser->state == K15_HTML_STATE_READ_PARAMETERS;
+                pParser->state = K15_HTML_STATE_READ_PARAMETERS;
             }
 
             tokenIndex = 0;
@@ -1711,8 +1736,6 @@ void bombPlanted()
 void bombDropped(kls_player_identifier playerIdentifier)
 {
     const char* pPlayerName = playerContexts[playerIdentifier].name;
-
-    broadMessage(K15_PLAYER_1_IDENTIFIER)
 }
 
 void bombPickedUp()
@@ -1748,7 +1771,7 @@ void playerConnected(const char* pPlayerName, unsigned long steamId)
     if (oldestPlayerIndex < sizeof(playerContexts))
     {
         playerContexts[oldestPlayerIndex].steamId = steamId;
-        copyString(playerContexts[oldestPlayerIndex, pPlayerName);
+        copyString(playerContexts[oldestPlayerIndex].name, pPlayerName);
     }
 
     return;
@@ -1780,22 +1803,31 @@ void handleCSGIClients()
         {
             char tokenChar = client.read();
 
-            if (csgiContext.state == K15_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN)
+            if (csgiContext.parserState == K15_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN)
             {
                 //FK: Eat whitespaces
-                if (tokenChar != '"')
+                if (tokenChar != '{')
                 {
                     continue;
                 }
 
-                csgiContext.state = K15_CSGI_STATE_READ_TOKEN;
+                csgiContext.parserState = K15_CSGI_STATE_SEEK_UNTIL_TOKEN_BEGIN;
             }
-            else if (csgiContext.state == K15_CSGI_STATE_READ_TOKEN)
+            else if (csgiContext.parserState == K15_CSGI_STATE_SEEK_UNTIL_TOKEN_BEGIN)
+            {
+                if (tokenChar != '\"')
+                {
+                    continue;
+                }
+
+                csgiContext.parserState = K15_CSGI_STATE_READ_TOKEN;
+            }
+            else if (csgiContext.parserState == K15_CSGI_STATE_READ_TOKEN)
             {
                 if (tokenChar == '"' || tokenChar == ',' || tokenChar == '}')
                 {
                     token[tokenIndex] = 0;
-                    csgiContext.state = K15_CSGI_STATE_IGNORE_UNTIL_TOKEN_BEGIN;
+                    csgiContext.parserState = K15_CSGI_STATE_EVALUATE_TOKEN;
                     continue;
                 }
 
@@ -1857,19 +1889,6 @@ byte handleError()
     return 1;
 }
 
-kls_rgb_color lerpColorValues(const kls_rgb_color* pFrom, const kls_rgb_color* pTo, uint8_t lerpFactor)
-{
-    //FK: lerpFactor [0,100]
-
-    kls_rgb_color color;
-
-    color.r = uint8_t(((uint16_t)pFrom->r * (100 - lerpFactor) + (uint16_t)pTo->r * lerpFactor) / 100);
-    color.g = uint8_t(((uint16_t)pFrom->g * (100 - lerpFactor) + (uint16_t)pTo->g * lerpFactor) / 100);
-    color.b = uint8_t(((uint16_t)pFrom->b * (100 - lerpFactor) + (uint16_t)pTo->b * lerpFactor) / 100);
-
-    return color;
-}
-
 void updateLEDColor()
 {
     const unsigned long nowInMs = millis();
@@ -1888,7 +1907,7 @@ void updateLEDColor()
                 continue;
             }
 
-            const uint8_t lerp = (pLED->fadeTimeMarkerInMs * 100) / pLED->totalFadeTimeInMs;
+            const uint8_t lerp = (uint8_t)((pLED->fadeTimeMarkerInMs * 100) / pLED->totalFadeTimeInMs);
             pLED->color = lerpColorValues(&pLED->baseColor, &pLED->targetColor, lerp);
             pLED->fadeTimeMarkerInMs -= deltaInMs;
         }
